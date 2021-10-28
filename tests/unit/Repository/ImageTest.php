@@ -2,14 +2,14 @@
 
 use ImageBlur\Repository\Image as ImageRepository;
 
-final class ImageTest extends \WP_Mock\Tools\TestCase {
+final class ImageTest extends WP_Mock\Tools\TestCase {
 	public function setUp(): void {
     $this->repo = new ImageRepository();
-		\WP_Mock::setUp();
+		WP_Mock::setUp();
 	}
 
 	public function tearDown(): void {
-		\WP_Mock::tearDown();
+		WP_Mock::tearDown();
 	}
 
 	public function testCanCreateInstanceOfClass() {
