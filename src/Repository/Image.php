@@ -32,12 +32,15 @@ class Image {
   }
 
   /**
-   * Checks if passed in attachment id belongs to an image
+   * Checks if passed in attachment id belongs to an image attachment
    */
   public function is_image(int $id): bool {
     return wp_attachment_is_image($id);
   }
 
+  /**
+   * Gets all image ids
+   */
   public function get_all_image_ids(): array {
     return get_posts( array(
       "post_type"      => "attachment",
