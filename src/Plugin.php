@@ -40,21 +40,28 @@ class Plugin {
 
   public function add_hooks(): void {
     add_filter( "wp_generate_attachment_metadata", [ $this, "generate_blur_for_attachment" ], 10, 2);
-    add_filter( 'attachment_fields_to_edit', [$this, "render_blur_data_to_edit_view"], 10, 2 );
+    add_filter( 'attachment_fields_to_edit', [$this, "render_blur_data_in_edit_view"], 10, 2 );
   }
 
-  public function render_blur_data_to_edit_view ( $form_fields, $post ) {
-    $sizes = $this->image_repository->get_all_image_sizes_with_default();
-
-    foreach ($sizes as $size) {
-      $key = Utils::add_plugin_prefix($size);
-      $form_fields[$key] = [
-        "input" => "text",
-        "value" => $this->image_blur_repository->get($post->ID, $size), 
-        "label" => $size,
-      ];
-    }
+  /**
+   * Adds generated blur images to image's edit view for debugging purposes.
+   * 
+   * @param array $form_fields - array of existing form_fields
+   * @param WP_Post $post - attachment as a post object
+   */
+  public function render_blur_data_in_edit_view ( $form_fields, $post ) {
+    if ( $this->image_repository->is_image($post->ID) ) {
+      $sizes = $this->image_repository->get_all_image_sizes_with_default();
   
+      foreach ($sizes as $size) {
+        $key = Utils::add_plugin_prefix($size);
+        $form_fields[$key] = [
+          "input" => "text",
+          "value" => $this->image_blur_repository->get($post->ID, $size), 
+          "label" => $size,
+        ];
+      }
+    }
     return $form_fields;
   }
 
