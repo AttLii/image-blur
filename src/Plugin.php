@@ -76,16 +76,16 @@ class Plugin {
     if ( $this->image_repository->is_image($id) ) {
       $sizes = $meta_data["sizes"];
       
+      // add default size
+      $sizes[Constants::DEFAULT_IMAGE_SIZE] = array(
+        "file" => wp_basename($meta_data["file"])
+      );
+      
       // get upload dir's path on the server;
       $upload_dir_path = wp_upload_dir()["basedir"];
       
       // image's folder on the server
       $folder_path = dirname($upload_dir_path . "/" . $meta_data["file"]);
-
-      // add default size
-      $sizes[Constants::DEFAULT_IMAGE_SIZE] = array(
-        "file" => wp_basename($meta_data["file"])
-      );
 
       foreach ($sizes as $size => $size_data) {
 
@@ -93,7 +93,7 @@ class Plugin {
 
         if ($content) {
 
-          // generate FD Image object from the content
+          // generate GD Image object from the content
           $image = imagecreatefromstring($content);
 
           // apply resizing, -1 so we keep the aspect ratio
@@ -117,6 +117,7 @@ class Plugin {
       }
     }
 
+    // filter requires different hooks to return this value. We dont use this hooks for altering meta_datas value.
     return $meta_data;
   }
 
