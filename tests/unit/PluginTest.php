@@ -203,4 +203,61 @@ final class PluginTest extends WP_Mock\Tools\TestCase {
 		// Mockery::mock does assertion which phpunit doesnt recognize 
 		$this->assertTrue(true);
 	}
+
+	/**
+	 * test for remove_blurs_for_removed_attachment, when WP passes in attachment id that is not for image
+	 * 
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testRemoveBlursForRemovedAttachmentMethodWithVideoId() {
+		Mockery::mock("overload:ImageBlur\Repository\Image")
+			->shouldReceive("is_image")
+			->with(1337)
+			->andReturn(false);
+
+		$video_id = 1337;
+		$plugin = new Plugin();
+		$plugin->remove_blurs_for_removed_attachment($video_id);
+
+		$this->assertTrue(true);
+	}
+
+	/**
+	 * test for remove_blurs_for_removed_attachment, when blur data deletion goes as planned
+	 * 
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testRemoveBlursForRemovedAttachmentMethod() {
+		$attachment_id = 1;
+		$sizes = [
+			"thumbnail",
+			"medium",
+			"large",
+		];
+
+		$image_repository_mock = Mockery::mock("overload:ImageBlur\Repository\Image");
+		
+		$image_repository_mock->shouldReceive("is_image")
+			->with($attachment_id)
+			->andReturn(true);
+
+		$image_repository_mock->shouldReceive("get_all_image_sizes_with_default")
+			->with()
+			->andReturn($sizes);
+		
+		$image_blur_repository_mock = Mockery::mock("overload:ImageBlur\Repository\ImageBlur");
+		$image_blur_repository_mock->shouldReceive("delete")
+			->with($attachment_id, "thumbnail");
+		$image_blur_repository_mock->shouldReceive("delete")
+			->with($attachment_id, "medium");
+		$image_blur_repository_mock->shouldReceive("delete")
+			->with($attachment_id, "large");
+
+		$plugin = new Plugin();
+		$plugin->remove_blurs_for_removed_attachment($attachment_id);
+
+		$this->assertTrue(true);
+	}
 }
