@@ -5,6 +5,7 @@ use ImageBlur\Constants;
 use ImageBlur\Utils;
 use ImageBlur\Repository\Image as ImageRepository;
 use ImageBlur\Repository\ImageBlur as ImageBlurRepository;
+use ImageBlur\Service\ProcessImage as ProcessImageService;
 
 /**
  * Stop execution if not in Wordpress environment
@@ -30,17 +31,25 @@ class Plugin {
    */
   public $image_blur_repository;
 
+  /**
+   * Instantiated process image service class.
+   * 
+   * @var ProcessImageService
+   */
+  public $process_image_service;
+
 
   public function __construct() {
     $this->image_repository = new ImageRepository();
     $this->image_blur_repository  = new ImageBlurRepository();
+    $this->process_image_service = new ProcessImageService();
 
     $this->add_hooks();
   }
 
   public function add_hooks(): void {
     add_filter( "wp_generate_attachment_metadata", [ $this, "generate_blur_for_attachment" ], 10, 2);
-    add_filter( 'attachment_fields_to_edit', [$this, "render_blur_data_in_edit_view"], 10, 2 );
+    add_filter( 'attachment_fields_to_edit', [ $this, "render_blur_data_in_edit_view" ], 10, 2 );
   }
 
   /**
@@ -73,47 +82,55 @@ class Plugin {
    * @param int $id - id of the attachment
    */
   public function generate_blur_for_attachment( $meta_data, $id ) {
-    if ( $this->image_repository->is_image($id) ) {
+    if ( $this->image_repository->is_image( $id ) ) {
       $sizes = $meta_data["sizes"];
       
-      // add default size
       $sizes[Constants::DEFAULT_IMAGE_SIZE] = array(
-        "file" => wp_basename($meta_data["file"])
+        "file" => wp_basename( $meta_data["file"] )
       );
       
       // get upload dir's path on the server;
       $upload_dir_path = wp_upload_dir()["basedir"];
       
       // image's folder on the server
-      $folder_path = dirname($upload_dir_path . "/" . $meta_data["file"]);
+      $folder_path = dirname( $upload_dir_path . "/" . $meta_data["file"] );
 
       foreach ($sizes as $size => $size_data) {
+        $file_path = $folder_path . "/" . $size_data["file"];
 
-        $content = file_get_contents($folder_path . "/" . $size_data["file"]);
+        $content = file_get_contents( $file_path );
+        if( $content === false ) continue;
 
-        if ($content) {
+        $mime = mime_content_type( $file_path );
+        if( $mime === false ) continue;
 
-          // generate GD Image object from the content
-          $image = imagecreatefromstring($content);
-
-          // apply resizing, -1 so we keep the aspect ratio
-          $image = imagescale($image, 10, -1);
-
-          // apply gaussian blur
-          for ( $x = 0; $x <= 1; $x++ ) {
-            imagefilter($image, IMG_FILTER_GAUSSIAN_BLUR);
+        $image_process_function_ref = null;
+        $image_output_function_ref = null;
+        if ( $mime === "image/png" ) {
+          $image_process_function_ref = array( $this->process_image_service, "process_png" );
+          $image_output_function_ref = "imagepng";
+        } else {
+          $image_process_function_ref = array( $this->process_image_service, "process_image" );
+          if ( $mime === "image/jpeg" ) {
+            $image_output_function_ref = "imagejpeg";
+          } else if ( $mime === "image/gif" ) {
+            $image_output_function_ref = "imagegif";
           }
+        }
+        
+        if ( $image_output_function_ref && $image_process_function_ref ) {
+          $image = imagecreatefromstring( $content );
+          $image = call_user_func($image_process_function_ref, $image);
 
-          // capture image's content to a variable
           ob_start();
-          imagejpeg($image);
+          $image_output_function_ref( $image );
           $contents = ob_get_contents();
           ob_end_clean();
-
-          $data = "data:image/jpeg;base64," . base64_encode($contents);
-
-          $this->image_blur_repository->set($id, $size, $data);
-        } 
+  
+          $data = "data:" . $mime . ";base64," . base64_encode( $contents );
+  
+          $this->image_blur_repository->set( $id, $size, $data );
+        }
       }
     }
 
