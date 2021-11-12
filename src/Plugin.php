@@ -85,6 +85,9 @@ class Plugin {
    */
   public function generate_blur_for_attachment( $metadata, $id ) {
     if ( $this->image_repository->is_image( $id ) ) {
+
+      $this->image_blur_repository->clear( $id );
+
       $mime = $this->image_repository->get_mime_type( $id );
 
       $sizes = AttachmentParser::parse_sizes_from_metadata( $metadata );
