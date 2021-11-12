@@ -211,12 +211,12 @@ final class PluginTest extends WP_Mock\Tools\TestCase {
 	 * @preserveGlobalState disabled
 	 */
 	public function testRemoveBlursForRemovedAttachmentMethodWithVideoId() {
+		$video_id = 1337;
 		Mockery::mock("overload:ImageBlur\Repository\Image")
 			->shouldReceive("is_image")
-			->with(1337)
+			->with($video_id)
 			->andReturn(false);
 
-		$video_id = 1337;
 		$plugin = new Plugin();
 		$plugin->remove_blurs_for_removed_attachment($video_id);
 
@@ -231,29 +231,15 @@ final class PluginTest extends WP_Mock\Tools\TestCase {
 	 */
 	public function testRemoveBlursForRemovedAttachmentMethod() {
 		$attachment_id = 1;
-		$sizes = [
-			"thumbnail",
-			"medium",
-			"large",
-		];
-
-		$image_repository_mock = Mockery::mock("overload:ImageBlur\Repository\Image");
 		
-		$image_repository_mock->shouldReceive("is_image")
+		Mockery::mock("overload:ImageBlur\Repository\Image")
+			->shouldReceive("is_image")
 			->with($attachment_id)
 			->andReturn(true);
 
-		$image_repository_mock->shouldReceive("get_all_image_sizes_with_default")
-			->with()
-			->andReturn($sizes);
-		
-		$image_blur_repository_mock = Mockery::mock("overload:ImageBlur\Repository\ImageBlur");
-		$image_blur_repository_mock->shouldReceive("delete")
-			->with($attachment_id, "thumbnail");
-		$image_blur_repository_mock->shouldReceive("delete")
-			->with($attachment_id, "medium");
-		$image_blur_repository_mock->shouldReceive("delete")
-			->with($attachment_id, "large");
+		Mockery::mock("overload:ImageBlur\Repository\ImageBlur")
+			->shouldReceive("clear")
+			->with($attachment_id);
 
 		$plugin = new Plugin();
 		$plugin->remove_blurs_for_removed_attachment($attachment_id);

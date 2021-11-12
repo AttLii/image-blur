@@ -137,10 +137,7 @@ class Plugin {
    */
   public function remove_blurs_for_removed_attachment( int $id ): void {
     if ( $this->image_repository->is_image( $id ) ) {
-      $sizes = $this->image_repository->get_all_image_sizes_with_default();
-      foreach ($sizes as $size) {
-        $this->image_blur_repository->delete( $id, $size );
-      }
+      $this->image_blur_repository->clear($id);
     }
   }
 }
