@@ -6,6 +6,7 @@ use ImageBlur\Utils;
 use ImageBlur\Repository\Image as ImageRepository;
 use ImageBlur\Repository\ImageBlur as ImageBlurRepository;
 use ImageBlur\Service\ProcessImage as ProcessImageService;
+use ImageBlur\Parser\Attachment as AttachmentParser;
 
 /**
  * Stop execution if not in Wordpress environment
@@ -82,49 +83,26 @@ class Plugin {
    * @param array $meta_data - meta data information about uploaded attachment
    * @param int $id - id of the attachment
    */
-  public function generate_blur_for_attachment( $meta_data, $id ) {
+  public function generate_blur_for_attachment( $metadata, $id ) {
     if ( $this->image_repository->is_image( $id ) ) {
-      $sizes = $meta_data["sizes"];
+      $mime = $this->image_repository->get_mime_type( $id );
+
+      $sizes = AttachmentParser::parse_sizes_from_metadata( $metadata );
       
-      $sizes[Constants::DEFAULT_IMAGE_SIZE] = array(
-        "file" => wp_basename( $meta_data["file"] )
-      );
-      
-      // get upload dir's path on the server;
-      $upload_dir_path = wp_upload_dir()["basedir"];
-      
-      // image's folder on the server
-      $folder_path = dirname( $upload_dir_path . "/" . $meta_data["file"] );
+      list( $process_func, $output_func ) = $this->process_image_service->choose_funcs_for_mime_type( $mime );
 
-      foreach ($sizes as $size => $size_data) {
-        $file_path = $folder_path . "/" . $size_data["file"];
+      if ( $process_func !== null && $output_func !== null ) {
 
-        $content = file_get_contents( $file_path );
-        if( $content === false ) continue;
+        list( "basedir" => $basedir ) = wp_upload_dir();
 
-        $mime = mime_content_type( $file_path );
-        if( $mime === false ) continue;
-
-        $image_process_function_ref = null;
-        $image_output_function_ref = null;
-        if ( $mime === "image/png" ) {
-          $image_process_function_ref = array( $this->process_image_service, "process_png" );
-          $image_output_function_ref = "imagepng";
-        } else {
-          $image_process_function_ref = array( $this->process_image_service, "process_image" );
-          if ( $mime === "image/jpeg" ) {
-            $image_output_function_ref = "imagejpeg";
-          } else if ( $mime === "image/gif" ) {
-            $image_output_function_ref = "imagegif";
-          }
-        }
-        
-        if ( $image_output_function_ref && $image_process_function_ref ) {
+        foreach ( $sizes as $size => $path ) {
+          $content = file_get_contents( "$basedir/$path" );
+  
           $image = imagecreatefromstring( $content );
-          $image = call_user_func($image_process_function_ref, $image);
+          $image = $process_func( $image );
 
           ob_start();
-          $image_output_function_ref( $image );
+          $output_func( $image );
           $contents = ob_get_contents();
           ob_end_clean();
   
@@ -135,8 +113,7 @@ class Plugin {
       }
     }
 
-    // filter requires different hooks to return this value. We dont use this hooks for altering meta_datas value.
-    return $meta_data;
+    return $metadata;
   }
 
   /**
