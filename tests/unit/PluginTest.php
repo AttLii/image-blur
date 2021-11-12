@@ -246,4 +246,33 @@ final class PluginTest extends WP_Mock\Tools\TestCase {
 
 		$this->assertTrue(true);
 	}
+
+	/**
+	 * test plugin deactivation
+	 * 
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testDeactivateMethod() {
+		Mockery::mock("overload:ImageBlur\Repository\Image")
+			->shouldReceive("get_all_image_ids")
+			->andReturn([1, 2, 3]);
+
+		$mock_image_blur_repo = Mockery::mock("overload:ImageBlur\Repository\ImageBlur");
+
+		$mock_image_blur_repo
+			->shouldReceive("clear")
+			->with(1);
+		$mock_image_blur_repo
+			->shouldReceive("clear")
+			->with(2);
+		$mock_image_blur_repo
+			->shouldReceive("clear")
+			->with(3);
+
+		$plugin = new Plugin();
+		$plugin->deactivate();
+
+		$this->assertTrue(true);
+	}
 }

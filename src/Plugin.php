@@ -121,11 +121,8 @@ class Plugin {
    */
   public function deactivate() {
     $ids = $this->image_repository->get_all_image_ids();
-    $sizes = $this->image_repository->get_all_image_sizes_with_default();
-    foreach ( $ids as $id ) {
-      foreach ( $sizes as $size ) {
-        $this->image_blur_repository->delete( $id, $size );
-      }
+    foreach ($ids as $id) {
+      $this->image_blur_repository->clear($id);
     }
   }
 

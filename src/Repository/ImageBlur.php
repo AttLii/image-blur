@@ -36,7 +36,7 @@ class ImageBlur {
   public function clear( int $id ): void {
     $results = get_post_meta( $id );
 
-    foreach ($results as $key => $_) {
+    foreach( array_keys($results) as $key) {
       if( Utils::has_plugin_prefix($key) ) {
         delete_post_meta($id, $key);
       }
