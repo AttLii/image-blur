@@ -18,7 +18,7 @@ class Constants {
   const DEFAULT_IMAGE_SIZE = "original";
 
   /**
-   * Prefix used on code level to give different values it's own namespace
+   * Prefix used on code level to give different keys it's own namespace
    */
   const PREFIX = "image_blur_";
 
