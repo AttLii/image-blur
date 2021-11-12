@@ -4,6 +4,35 @@ namespace ImageBlur\Service;
 class ProcessImage {
 
   /**
+   * Php processes and outputs image data in different ways depending on the mime type.
+   * These two functions are chosen in this method and returned as an array.
+   * This can also return null for both or either functions, when mime type not supported.
+   * 
+   * @param string $mime_type
+   * @return array - array where first index is processing function and second output function
+   */
+  public function choose_funcs_for_mime_type( string $mime_type ): array {
+    $process_func = null;
+    $output_func = null;
+    
+    if ( $mime_type === "image/png" ) {
+      $process_func = array( $this, "process_png" );
+      $output_func = "imagepng";
+    } else if ( $mime_type === "image/jpeg" ) {
+      $process_func = array( $this, "process_image" );
+      $output_func = "imagejpeg";
+    } else if ( $mime_type === "image/gif" ) {
+      $process_func = array( $this, "process_image" );
+      $output_func = "imagegif";
+    }
+
+    return array(
+      $process_func,
+      $output_func
+    );
+  }
+
+  /**
    * downscales passed in image while keeping aspect ratio to defined value and returns new downscaled image
    */
   public function downscale($image) {
