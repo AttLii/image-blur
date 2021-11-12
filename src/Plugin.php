@@ -85,6 +85,9 @@ class Plugin {
    */
   public function generate_blur_for_attachment( $metadata, $id ) {
     if ( $this->image_repository->is_image( $id ) ) {
+
+      $this->image_blur_repository->clear( $id );
+
       $mime = $this->image_repository->get_mime_type( $id );
 
       $sizes = AttachmentParser::parse_sizes_from_metadata( $metadata );
@@ -121,11 +124,8 @@ class Plugin {
    */
   public function deactivate() {
     $ids = $this->image_repository->get_all_image_ids();
-    $sizes = $this->image_repository->get_all_image_sizes_with_default();
-    foreach ( $ids as $id ) {
-      foreach ( $sizes as $size ) {
-        $this->image_blur_repository->delete( $id, $size );
-      }
+    foreach ($ids as $id) {
+      $this->image_blur_repository->clear($id);
     }
   }
 
@@ -137,10 +137,7 @@ class Plugin {
    */
   public function remove_blurs_for_removed_attachment( int $id ): void {
     if ( $this->image_repository->is_image( $id ) ) {
-      $sizes = $this->image_repository->get_all_image_sizes_with_default();
-      foreach ($sizes as $size) {
-        $this->image_blur_repository->delete( $id, $size );
-      }
+      $this->image_blur_repository->clear($id);
     }
   }
 }

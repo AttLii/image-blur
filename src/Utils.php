@@ -17,4 +17,7 @@ class Utils {
     return Constants::PREFIX . $str;
   }
 
+  public static function has_plugin_prefix(string $str): bool {
+    return substr( $str, 0, strlen( Constants::PREFIX ) ) === Constants::PREFIX;
+  }
 }

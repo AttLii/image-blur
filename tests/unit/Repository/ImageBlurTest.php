@@ -62,13 +62,56 @@ final class ImageBlurTest extends WP_Mock\Tools\TestCase {
 
 	public function testDeleteMethod() {
 		WP_Mock::userFunction("delete_post_meta", array(
-			"args" => array(
-				1,
-				"image_blur_foo",
-			)
+			"args" => array( 1, "image_blur_foo" )
 		));
 
 		$this->repo->delete(1, "foo");
+
+		$this->assertTrue(true);
+	}
+
+	public function testClearMethod() {
+		$id = 1;
+
+		WP_Mock::userFunction("get_post_meta", array(
+			"args" => $id,
+			"return" => [
+				"image_blur_thumbnail" => "foo",
+				"image_blur_large" => "bar",
+				"_wp_attachment" => "foo",
+				"wp_attachment" => "bar",
+			]
+		));
+
+		WP_Mock::userFunction("delete_post_meta", array(
+			"args" => array( $id, "image_blur_thumbnail" ),
+		));
+
+		WP_Mock::userFunction("delete_post_meta", array(
+			"args" => array( $id, "image_blur_large" ),
+		));
+
+		$this->repo->clear($id);
+
+		$this->assertTrue(true);
+	}
+
+	public function testClearMethodWithBadId() {
+		$id = 404;
+
+		WP_Mock::userFunction("get_post_meta", array(
+			"args" => $id,
+			"return" => [
+				"_wp_attachment" => "foo",
+				"wp_attachment" => "bar",
+			]
+		));
+
+		WP_Mock::userFunction("delete_post_meta", array(
+			"times" => 0
+		));
+
+		$this->repo->clear($id);
 
 		$this->assertTrue(true);
 	}

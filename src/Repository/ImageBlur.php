@@ -32,4 +32,14 @@ class ImageBlur {
     $meta_key = Utils::add_plugin_prefix($size);
     delete_post_meta($id, $meta_key);
   }
+
+  public function clear( int $id ): void {
+    $results = get_post_meta( $id );
+
+    foreach( array_keys($results) as $key) {
+      if( Utils::has_plugin_prefix($key) ) {
+        delete_post_meta($id, $key);
+      }
+    }
+  }
 }
