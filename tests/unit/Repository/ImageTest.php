@@ -78,4 +78,12 @@ final class ImageTest extends WP_Mock\Tools\TestCase {
     $result = $this->repo->get_all_image_ids();
     $this->assertEquals($result, array(1, 2, 3, 4));
   }
+
+  public function testGetMimeTypeMethod() {
+    WP_Mock::userFunction("get_post_mime_type", array(
+      "return" => "image/png"
+    ));
+    $result = $this->repo->get_mime_type(1);
+    $this->assertEquals($result, "image/png");
+  }
 }

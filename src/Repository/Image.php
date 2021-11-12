@@ -49,4 +49,8 @@ class Image {
       "fields"         => "ids"
     ) );
   }
+
+  public function get_mime_type(int $id): string {
+    return get_post_mime_type($id);
+  }
 }
