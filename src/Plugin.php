@@ -48,6 +48,9 @@ class Plugin {
     $this->add_hooks();
   }
 
+  /**
+   * Add hooks in separate method, this is here for unit testing purposes.
+   */
   public function add_hooks(): void {
     add_filter( "wp_generate_attachment_metadata", [ $this, "generate_blur_for_attachment" ], 10, 2);
     add_filter( "attachment_fields_to_edit", [ $this, "render_blur_data_in_edit_view" ], 10, 2 );
@@ -120,12 +123,26 @@ class Plugin {
   }
 
   /**
-   * A function that is run when this plugin is deactivated. Cleans post meta table from generated blur images.
+   * A function that is run when this plugin is deactivated.
+   * It cleans post meta table from generated blur images.
    */
-  public function deactivate() {
+  public function deactivate(): void {
     $ids = $this->image_repository->get_all_image_ids();
     foreach ($ids as $id) {
       $this->image_blur_repository->clear($id);
+    }
+  }
+
+  /**
+   * A function that is run when this plugin is activated.
+   * It generates blurs from each image in media library to all defined image sizes.
+   */
+  public function activate(): void {
+    $ids = $this->image_repository->get_all_image_ids();
+    $sizes = $this->image_repository->get_all_image_sizes_with_default();
+    foreach ($ids as $id) {
+      $metadata = wp_get_attachment_metadata($id);
+      $this->generate_blur_for_attachment($metadata, $id);
     }
   }
 
