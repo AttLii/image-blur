@@ -14,16 +14,4 @@
 		<exclude name="WordPress.Files.FileName.InvalidClassFileName" />
 		<exclude name="WordPress.PHP.YodaConditions.NotYoda" />
 	</rule>
-	<rule ref="Squiz.Commenting.FileComment.MissingPackageTag">
-		<exclude-pattern>/tests</exclude-pattern>
-	</rule>
-	<rule ref="Squiz.Commenting.ClassComment.Missing">
-		<exclude-pattern>/tests</exclude-pattern>
-	</rule>
-	<rule ref="Squiz.Commenting.FunctionComment.Missing">
-		<exclude-pattern>/tests</exclude-pattern>
-	</rule>
-	<rule ref="Generic.Commenting.DocComment.MissingShort">
-		<exclude-pattern>/tests</exclude-pattern>
-	</rule>
 </ruleset>
