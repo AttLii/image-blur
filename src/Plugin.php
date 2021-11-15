@@ -39,7 +39,9 @@ class Plugin {
 	 */
 	public $process_image_service;
 
-
+	/**
+	 * Class constructor
+	 */
 	public function __construct() {
 		$this->image_repository = new ImageRepository();
 		$this->image_blur_repository  = new ImageBlurRepository();
@@ -60,8 +62,8 @@ class Plugin {
 	/**
 	 * Adds generated blur images to image's edit view for debugging purposes.
 	 *
-	 * @param array   $form_fields - array of existing form_fields
-	 * @param WP_Post $post - attachment as a post object
+	 * @param array   $form_fields - array of existing form_fields.
+	 * @param WP_Post $post - attachment as a post object.
 	 */
 	public function render_blur_data_in_edit_view( $form_fields, $post ) {
 		if ( $this->image_repository->is_image( $post->ID ) ) {
@@ -83,8 +85,8 @@ class Plugin {
 	 * Function is attached to wp_generate_attachment_metadata hook.
 	 * It generates downscaled and blurred version of the image to postmeta table.
 	 *
-	 * @param array $meta_data - meta data information about uploaded attachment
-	 * @param int   $id - id of the attachment
+	 * @param array $metadata - meta data information about uploaded attachment.
+	 * @param int   $id - id of the attachment.
 	 */
 	public function generate_blur_for_attachment( $metadata, $id ) {
 		if ( $this->image_repository->is_image( $id ) ) {
@@ -149,8 +151,7 @@ class Plugin {
 	/**
 	 * A function that removes blur data for deleted image. This is added to delete_attachment action.
 	 *
-	 * @param int $id - attachment's ID
-	 * @return void
+	 * @param int $id - attachment's ID.
 	 */
 	public function remove_blurs_for_removed_attachment( int $id ): void {
 		if ( $this->image_repository->is_image( $id ) ) {
