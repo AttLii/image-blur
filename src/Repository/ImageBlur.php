@@ -7,39 +7,64 @@ use ImageBlur\Utils;
 /**
  * Stop execution if not in Wordpress environment
  */
-defined("WPINC") or die;
+defined( 'WPINC' ) || die;
 
 /**
- * Repository class for fetching and storing Image Blur related data for images
+ * Repository class for fetching and storing Image Blur related data for image attachments
  */
 class ImageBlur {
 
-  public function set( int $id, string $size, string $data ): void {
-    $meta_key = Utils::add_plugin_prefix($size);
-    update_post_meta(
-      $id,
-      $meta_key,
-      $data
-    );
-  }
+	/**
+	 * Sets blur data specific attachment's size.
+	 *
+	 * @param int    $id - attachment's id.
+	 * @param string $size - attachment's size.
+	 * @param string $data - data that is stored.
+	 **/
+	public function set( int $id, string $size, string $data ): void {
+		$meta_key = Utils::add_plugin_prefix( $size );
+		update_post_meta(
+			$id,
+			$meta_key,
+			$data
+		);
+	}
 
-  public function get( int $id, string $size ): string {
-    $meta_key = Utils::add_plugin_prefix($size);
-    return get_post_meta( $id, $meta_key, true ) ?? "";
-  }
+	/**
+	 * Get blur data for corresponds to specific attachment's size.
+	 *
+	 * @param int    $id   - attachment's id.
+	 * @param string $size - attachment's size.
+	 * @return string      - Blur data. this returns empty string, if it's not found.
+	 */
+	public function get( int $id, string $size ): string {
+		$meta_key = Utils::add_plugin_prefix( $size );
+		return get_post_meta( $id, $meta_key, true ) ?? '';
+	}
 
-  public function delete( int $id, string $size ): void {
-    $meta_key = Utils::add_plugin_prefix($size);
-    delete_post_meta($id, $meta_key);
-  }
+	/**
+	 * Deletes blur data that corresponds to specific attachment's size.
+	 *
+	 * @param int    $id   - attachment's id.
+	 * @param string $size - attachment's size.
+	 */
+	public function delete( int $id, string $size ): void {
+		$meta_key = Utils::add_plugin_prefix( $size );
+		delete_post_meta( $id, $meta_key );
+	}
 
-  public function clear( int $id ): void {
-    $results = get_post_meta( $id );
+	/**
+	 * Clears attachment's blur data.
+	 *
+	 * @param int $id - Attachment's id.
+	 */
+	public function clear( int $id ): void {
+		$results = get_post_meta( $id );
 
-    foreach( array_keys($results) as $key) {
-      if( Utils::has_plugin_prefix($key) ) {
-        delete_post_meta($id, $key);
-      }
-    }
-  }
+		foreach ( array_keys( $results ) as $key ) {
+			if ( Utils::has_plugin_prefix( $key ) ) {
+				delete_post_meta( $id, $key );
+			}
+		}
+	}
 }

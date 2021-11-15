@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<ruleset name="Wordpress Theme">
+	<file>.</file>
+	<arg name="extensions" value="php"/>
+	<arg value="-colors"/>
+	<arg value="ns"/>
+	<config name="installed_paths" value="vendor/wp-coding-standards/wpcs"/>
+	<exclude-pattern>vendor</exclude-pattern>
+	<exclude-pattern>tests</exclude-pattern>
+	<rule ref="WordPress">
+		<exclude name="Squiz.Commenting.FileComment.Missing" />
+		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase" />
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName" />
+		<exclude name="WordPress.PHP.YodaConditions.NotYoda" />
+	</rule>
+</ruleset>
