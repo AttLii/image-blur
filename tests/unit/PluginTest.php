@@ -275,4 +275,34 @@ final class PluginTest extends WP_Mock\Tools\TestCase {
 
 		$this->assertTrue(true);
 	}
+
+	/**
+	 * test plugin activation
+	 * 
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testActivateMethod() {
+		$metadata = [];
+		$mock_image_repository = Mockery::mock("overload:ImageBlur\Repository\Image");
+		$mock_image_repository
+			->shouldReceive("get_all_image_ids")
+			->andReturn([ 1, 2, 3 ]);
+		$mock_image_repository
+			->shouldReceive("is_image")
+			->andReturn(false);
+		$mock_image_repository
+			->shouldReceive("get_all_image_sizes_with_default")
+			->andReturn([ ]);
+
+		WP_Mock::userFunction("wp_get_attachment_metadata", array(
+			"times" => 3,
+			"return" => $metadata
+		));
+
+		$plugin = new Plugin();
+		$plugin->activate();
+
+		$this->assertTrue(true);
+	}
 }
