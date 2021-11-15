@@ -20,8 +20,8 @@
 		"wp-coding-standards/wpcs": "^2.3"
 	},
 	"scripts": {
-		"test": "phpunit tests",
-		"lint": "phpcs",
-		"lint:fix": "phpcbs"
+		"test": "./vendor/bin/phpunit tests",
+		"lint": "./vendor/bin/phpcs",
+		"lint:fix": "./vendor/bin/phpcbf"
 	}
 }
