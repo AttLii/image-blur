@@ -11,7 +11,7 @@ use ImageBlur\Parser\Attachment as AttachmentParser;
 /**
  * Stop execution if not in Wordpress environment
  */
-defined( 'WPINC' ) or die;
+defined( 'WPINC' ) || die;
 
 /**
  * Main class of the plugin.

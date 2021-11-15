@@ -6,7 +6,7 @@ use ImageBlur\Constants;
 /**
  * Stop execution if not in Wordpress environment
  */
-defined( 'WPINC' ) or die;
+defined( 'WPINC' ) || die;
 
 
 /**

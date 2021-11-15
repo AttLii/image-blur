@@ -8,7 +8,7 @@ require_once 'vendor/autoload.php';
 /**
  * Stop execution if not in Wordpress environment
  */
-defined( 'WPINC' ) or die;
+defined( 'WPINC' ) || die;
 
 $image_blur_plugin = new ImageBlur\Plugin();
 

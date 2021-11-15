@@ -5,7 +5,7 @@ namespace ImageBlur;
 /**
  * Stop execution if not in Wordpress environment
  */
-defined( 'WPINC' ) or die;
+defined( 'WPINC' ) || die;
 
 /**
  * A class that holds constants values, that are used internally in this plugin
