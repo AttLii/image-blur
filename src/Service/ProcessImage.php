@@ -6,6 +6,9 @@ namespace ImageBlur\Service;
  */
 defined( 'WPINC' ) || die;
 
+/**
+ * Class for processing images.
+ */
 class ProcessImage {
 
 	/**
@@ -13,8 +16,8 @@ class ProcessImage {
 	 * These two functions are chosen in this method and returned as an array.
 	 * This can also return null for both or either functions, when mime type not supported.
 	 *
-	 * @param string $mime_type
-	 * @return array - array where first index is processing function and second output function
+	 * @param string $mime_type - mime type we use to get correct functions.
+	 * @return array - array where first index is processing function and second output function.
 	 */
 	public function choose_funcs_for_mime_type( string $mime_type ): array {
 		$process_func = null;
@@ -38,7 +41,10 @@ class ProcessImage {
 	}
 
 	/**
-	 * downscales passed in image while keeping aspect ratio to defined value and returns new downscaled image
+	 * Downscales passed in image while keeping aspect ratio to defined value and returns new downscaled image
+	 *
+	 * @param GdImage $image - Image object.
+	 * @return GdImage - Downscaled image object.
 	 */
 	public function downscale( $image ) {
 		$width = apply_filters( 'image-blur-modify-width', 8 );
@@ -46,7 +52,10 @@ class ProcessImage {
 	}
 
 	/**
-	 * Adds gaussian blur to passed in image. Blur's strength is applied using same function over and over again to the image object.
+	 * Adds gaussian blur to passed in image.
+	 * Blur's strength is applied using same function over and over again to the image object.
+	 *
+	 * @param GdImage $image - Image object.
 	 */
 	public function gaussian_blur( $image ): void {
 		$strength = apply_filters( 'image-blur-modify-blur-strength', 1 );
@@ -57,15 +66,18 @@ class ProcessImage {
 
 	/**
 	 * PNG images have unique ability to be transparent, so we need to apply wanted changes with this specific function.
+	 *
+	 * @param GdImage $image - Image object.
+	 * @return GdImage - modified Image object.
 	 */
 	public function process_png( $image ) {
 		$width = imagesx( $image );
 		$height = imagesy( $image );
 
-		// create empty copy of passed in image using true color
+		// create empty copy of passed in image using true color.
 		$new_image = imagecreatetruecolor( $width, $height );
 
-		// downscale and apply needed alpha and blending
+		// downscale and apply needed alpha and blending.
 		$new_image = $this->downscale( $new_image );
 		imagealphablending( $new_image, false );
 		imagesavealpha( $new_image, true );
@@ -73,11 +85,11 @@ class ProcessImage {
 		$ds_width = imagesx( $new_image );
 		$ds_height = imagesy( $new_image );
 
-		// fill copy with transparent rectangle
+		// fill copy with transparent rectangle.
 		$transparency = imagecolorallocatealpha( $new_image, 255, 255, 255, 127 );
 		imagefilledrectangle( $new_image, 0, 0, $ds_width, $ds_height, $transparency );
 
-		// paste image inside the copy
+		// paste image inside the copy.
 		imagecopyresampled( $new_image, $image, 0, 0, 0, 0, $ds_width, $ds_height, $width, $height );
 
 		$this->gaussian_blur( $new_image );
@@ -85,6 +97,12 @@ class ProcessImage {
 		return $new_image;
 	}
 
+	/**
+	 * Processing function for non-png images.
+	 *
+	 * @param GdImage $image - Image object.
+	 * @return GdImage - modified Image object
+	 */
 	public function process_image( $image ) {
 		$image = $this->downscale( $image );
 		$this->gaussian_blur( $image );
