@@ -13,27 +13,27 @@ final class AttachmentTest extends WP_Mock\Tools\TestCase {
 		Mockery::close();
 	}
 
-  public function testParseSizesFromMetadataMethod() {
-    $data = [
-      "file" => "2021/11/Vector-1.png",
-      "sizes" => [
-        "thumbnail" => [
-          "file" => "Vector-1-thumbnail.png"
-        ],
-        "large" => [
-          "file" => "Vector-1-large.png"
-        ]
-      ]
-    ];
-    $result = Attachment::parse_sizes_from_metadata($data);
+	public function testParseSizesFromMetadataMethod() {
+		$data = array(
+			'file' => '2021/11/Vector-1.png',
+			'sizes' => array(
+				'thumbnail' => array(
+					'file' => 'Vector-1-thumbnail.png',
+				),
+				'large' => array(
+					'file' => 'Vector-1-large.png',
+				),
+			),
+		);
+		$result = Attachment::parse_sizes_from_metadata( $data );
 
-    $this->assertEquals(
-      $result,
-      [
-        "original" => '2021/11/Vector-1.png',
-        "thumbnail" => '2021/11/Vector-1-thumbnail.png',
-        "large" => '2021/11/Vector-1-large.png'
-      ]
-    );
-  }
+		$this->assertEquals(
+			$result,
+			array(
+				'original' => '2021/11/Vector-1.png',
+				'thumbnail' => '2021/11/Vector-1-thumbnail.png',
+				'large' => '2021/11/Vector-1-large.png',
+			)
+		);
+	}
 }

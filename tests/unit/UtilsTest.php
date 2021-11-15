@@ -11,16 +11,16 @@ final class UtilsTest extends WP_Mock\Tools\TestCase {
 		WP_Mock::tearDown();
 	}
 
-  public function testAddPluginPrefixMethod() {
-    $result = Utils::add_plugin_prefix("foo");
-    $this->assertEquals($result, "image_blur_foo");
-  }
+	public function testAddPluginPrefixMethod() {
+		$result = Utils::add_plugin_prefix( 'foo' );
+		$this->assertEquals( $result, 'image_blur_foo' );
+	}
 
 	public function testHasPluginPrefixMethod() {
-    $result = Utils::has_plugin_prefix("image_blur_thumbnail");
-    $this->assertTrue($result);
+		$result = Utils::has_plugin_prefix( 'image_blur_thumbnail' );
+		$this->assertTrue( $result );
 
-    $result = Utils::has_plugin_prefix("idonthaverightprefix");
-    $this->assertFalse($result);
+		$result = Utils::has_plugin_prefix( 'idonthaverightprefix' );
+		$this->assertFalse( $result );
 	}
 }
