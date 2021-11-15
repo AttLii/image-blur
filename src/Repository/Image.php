@@ -32,7 +32,10 @@ class Image {
 	}
 
 	/**
-	 * Checks if passed in attachment id belongs to an image attachment
+	 * Checks if passed in id belongs to an image attachment
+	 *
+	 * @param int $id - Attachment's id.
+	 * @return bool - true if id is for image attachment.
 	 */
 	public function is_image( int $id ): bool {
 		return wp_attachment_is_image( $id );
@@ -52,6 +55,12 @@ class Image {
 		);
 	}
 
+	/**
+	 * Returns mime type for passed in attachment id.
+	 *
+	 * @param int $id - attachment's id.
+	 * @return string - attachment's mime type.
+	 */
 	public function get_mime_type( int $id ): string {
 		return get_post_mime_type( $id );
 	}
