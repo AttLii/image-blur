@@ -14,7 +14,7 @@ class ProcessImage {
 	/**
 	 * Php processes and outputs image data in different ways depending on the mime type.
 	 * These two functions are chosen in this method and returned as an array.
-	 * This can also return null for both or either functions, when mime type not supported.
+	 * This can also return null for both or either functions, when mime type is not supported.
 	 *
 	 * @param string $mime_type - mime type we use to get correct functions.
 	 * @return array - array where first index is processing function and second output function.
@@ -41,7 +41,7 @@ class ProcessImage {
 	}
 
 	/**
-	 * Downscales passed in image while keeping aspect ratio to defined value and returns new downscaled image
+	 * Downscales passed in image while keeping aspect ratio to defined width and returns new downscaled image.
 	 *
 	 * @param GdImage $image - Image object.
 	 * @return GdImage - Downscaled image object.

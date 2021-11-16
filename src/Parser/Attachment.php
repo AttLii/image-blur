@@ -9,10 +9,10 @@ use ImageBlur\Constants;
 class Attachment {
 
 	/**
-	 * Parses image attachment's size data to more clearer and concise for our use case.
-	 * This also appends default image path to the array, which is also in metadata.
+	 * Parses image attachment's size data to more clearer and concise structure.
+	 * This also appends default image path to the array, which is also in the metadata.
 	 *
-	 * @param array $metadata - metadata passed to wp_generate_attachment_metadata hook.
+	 * @param array $metadata - metadata passed to f.e. wp_generate_attachment_metadata hook.
 	 * @return array - array where key is the slug of image size and value path inside uploads folder to the image.
 	 */
 	public static function parse_sizes_from_metadata( $metadata ): array {

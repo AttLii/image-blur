@@ -9,7 +9,7 @@ use ImageBlur\Constants;
 defined( 'WPINC' ) || die;
 
 /**
- * A class that provides utility methods for this plugin
+ * A class that provides utility methods for this plugin.
  */
 class Utils {
 

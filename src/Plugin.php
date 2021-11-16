@@ -85,7 +85,7 @@ class Plugin {
 	 * Function is attached to wp_generate_attachment_metadata hook.
 	 * It generates downscaled and blurred version of the image to postmeta table.
 	 *
-	 * @param array $metadata - meta data information about uploaded attachment.
+	 * @param array $metadata - meta data information about the uploaded attachment.
 	 * @param int   $id - id of the attachment.
 	 */
 	public function generate_blur_for_attachment( $metadata, $id ) {
@@ -95,13 +95,13 @@ class Plugin {
 
 			$mime = $this->image_repository->get_mime_type( $id );
 
-			$sizes = AttachmentParser::parse_sizes_from_metadata( $metadata );
-
 			list( $process_func, $output_func ) = $this->process_image_service->choose_funcs_for_mime_type( $mime );
 
 			if ( $process_func !== null && $output_func !== null ) {
 
 				list( 'basedir' => $basedir ) = wp_upload_dir();
+
+				$sizes = AttachmentParser::parse_sizes_from_metadata( $metadata );
 
 				foreach ( $sizes as $size => $path ) {
 					$content = file_get_contents( "$basedir/$path" );
@@ -136,7 +136,7 @@ class Plugin {
 	}
 
 	/**
-	 * A function that is run when this plugin is activated.
+	 * This runs when this plugin is activated.
 	 * It generates blurs from each image in media library to all defined image sizes.
 	 */
 	public function activate(): void {
@@ -149,7 +149,7 @@ class Plugin {
 	}
 
 	/**
-	 * A function that removes blur data for deleted image. This is added to delete_attachment action.
+	 * Removes blur data for deleted image. This is added to delete_attachment action.
 	 *
 	 * @param int $id - attachment's ID.
 	 */

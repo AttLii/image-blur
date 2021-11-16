@@ -10,7 +10,7 @@ use ImageBlur\Utils;
 defined( 'WPINC' ) || die;
 
 /**
- * Repository class for fetching and storing Image Blur related data for image attachments
+ * Repository class for fetching and storing image blur related data for image attachments
  */
 class ImageBlur {
 
@@ -31,11 +31,11 @@ class ImageBlur {
 	}
 
 	/**
-	 * Get blur data for corresponds to specific attachment's size.
+	 * Get blur data that corresponds to specific attachment's size and id.
 	 *
 	 * @param int    $id   - attachment's id.
 	 * @param string $size - attachment's size.
-	 * @return string      - Blur data. this returns empty string, if it's not found.
+	 * @return string      - Blur data or empty string.
 	 */
 	public function get( int $id, string $size ): string {
 		$meta_key = Utils::add_plugin_prefix( $size );
