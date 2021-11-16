@@ -60,7 +60,7 @@ final class ImageTest extends WP_Mock\Tools\TestCase {
 				'thumbnail',
 				'post-thumbnail',
 				'foo',
-				'original',
+				'full',
 			)
 		);
 	}

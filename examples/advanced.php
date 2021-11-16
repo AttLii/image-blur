@@ -8,15 +8,14 @@ $id = 17;
 
 $prefix = 'image_blur_';
 
-// a coined term for the default size.
-$image_size = 'original';
+$image_size = 'full';
 
 $key = $prefix . $image_size;
 
 // this value can be null in various cases, do null checking if necessary.
 $blur_data = get_post_meta( $id, $key, true );
 
-list($url, $width, $height) = wp_get_attachment_image_src( $id, 'full' );
+list($url, $width, $height) = wp_get_attachment_image_src( $id, $image_size );
 
 ?>
 <div class="image-wrapper">

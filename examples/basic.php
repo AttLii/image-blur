@@ -8,8 +8,7 @@ $attachment_id = 16;
 
 $prefix = 'image_blur_';
 
-// a coined term for the default size.
-$image_size = 'original';
+$image_size = 'full';
 
 $key = $prefix . $image_size;
 
