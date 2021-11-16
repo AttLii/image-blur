@@ -30,7 +30,7 @@ final class AttachmentTest extends WP_Mock\Tools\TestCase {
 		$this->assertEquals(
 			$result,
 			array(
-				'original' => '2021/11/Vector-1.png',
+				'full' => '2021/11/Vector-1.png',
 				'thumbnail' => '2021/11/Vector-1-thumbnail.png',
 				'large' => '2021/11/Vector-1-large.png',
 			)

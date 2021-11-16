@@ -13,9 +13,9 @@ defined( 'WPINC' ) || die;
 class Constants {
 
 	/**
-	 * Wordpress doesn't have a name for original image size, so we use this throughout our plugin.
+	 * Wordpress refers to default image size with this
 	 */
-	const DEFAULT_IMAGE_SIZE = 'original';
+	const DEFAULT_IMAGE_SIZE = 'full';
 
 	/**
 	 * Prefix used on code level to give different keys plugin's namespace
