@@ -52,13 +52,13 @@ class ProcessImage {
 	}
 
 	/**
-	 * Adds gaussian blur to passed in image.
+	 * Applies gaussian blur to passed in image.
 	 * Blur's strength is applied using same function over and over again to the image object.
 	 *
 	 * @param GdImage $image - Image object.
 	 */
 	public function gaussian_blur( $image ): void {
-		$strength = apply_filters( 'image-blur-modify-blur-strength', 1 );
+		$strength = apply_filters( 'image-blur-modify-gaussian-blur-strength', 1 );
 		for ( $i = 1; $i <= $strength; $i++ ) {
 			imagefilter( $image, IMG_FILTER_GAUSSIAN_BLUR );
 		}
