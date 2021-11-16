@@ -33,3 +33,19 @@ To regenerate blurs you can:
 This plugin cleans up generated blurs when it is deactivated.
 
 For manual deletion (which shouldn't be needed), you can remove all rows from `wp_postmeta` table that have `image_blur_` prefix in `meta_key` column.
+
+== Customization ==
+
+The plugin provides few filters, so developers can modify generated blur images to their needs. By default, generated images are 8 pixels wide and passed once through gaussian blur function, which will result in roughly 250-1000 characters long string. To change these, use following hooks:
+
+`
+function modify_image_blur_width( int $width ): int {
+  return 15;
+}
+add_filter("image-blur-modify-width", "modify_image_blur_width");
+
+function modify_gaussian_blur_strength( int $strength ): int {
+  return 10;
+}
+add_filter("image-blur-modify-gaussian-blur-strength", "modify_gaussian_blur_strength");
+`
