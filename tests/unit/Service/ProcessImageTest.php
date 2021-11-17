@@ -65,7 +65,7 @@ final class ProcessImageTest extends WP_Mock\Tools\TestCase {
 			->with( 1 )
 			->reply( $strength );
 
-		$mock_image_content = file_get_contents( "./tests/assets/test-image-gaussian-blur.jpg" );
+		$mock_image_content = file_get_contents( realpath( __DIR__ . "/../../assets/test-image-gaussian-blur.jpg" ) );
 		$image = imagecreatefromstring( $mock_image_content );
 		$this->service->gaussian_blur( $image );
 		
@@ -74,13 +74,13 @@ final class ProcessImageTest extends WP_Mock\Tools\TestCase {
 		$mock_image_content = ob_get_contents();
 		ob_end_clean();
 
-		$expected_blur_image_content = file_get_contents( "./tests/assets/test-image-gaussian-blur-$strength.jpg" );
+		$expected_blur_image_content = file_get_contents( realpath( __DIR__ . "/../../assets/test-image-gaussian-blur-$strength.jpg" ) );
 
 		$this->assertEquals($mock_image_content, $expected_blur_image_content);
 	}
 
 	public function testProcessImageMethod() {
-		$mock_image_content = file_get_contents( "./tests/assets/test-image-process-image.jpg" );
+		$mock_image_content = file_get_contents( realpath( __DIR__ . "/../../assets/test-image-process-image.jpg" ) );
 		$image = imagecreatefromstring( $mock_image_content );
 		$processed_image = $this->service->process_image($image);
 
@@ -89,12 +89,12 @@ final class ProcessImageTest extends WP_Mock\Tools\TestCase {
 		$mock_image_content = ob_get_contents();
 		ob_end_clean();
 
-		$expected_image_content = file_get_contents( "./tests/assets/test-image-process-image-processed.jpg" );
+		$expected_image_content = file_get_contents( realpath( __DIR__ . "/../../assets/test-image-process-image-processed.jpg" ) );
 		$this->assertEquals($mock_image_content, $expected_image_content);
 	}
 	
 	public function testProcessPngMethod() {
-		$mock_image_content = file_get_contents( "./tests/assets/test-image-process-png.png" );
+		$mock_image_content = file_get_contents( realpath( __DIR__ . "/../../assets/test-image-process-png.png" ) );
 		$image = imagecreatefromstring( $mock_image_content );
 		$processed_image = $this->service->process_png($image);
 
@@ -103,7 +103,7 @@ final class ProcessImageTest extends WP_Mock\Tools\TestCase {
 		$mock_image_content = ob_get_contents();
 		ob_end_clean();
 
-		$expected_image_content = file_get_contents( "./tests/assets/test-image-process-png-processed.png" );
+		$expected_image_content = file_get_contents( realpath( __DIR__ . "/../../assets/test-image-process-png-processed.png" ) );
 		$this->assertEquals($mock_image_content, $expected_image_content);
 
 	}
