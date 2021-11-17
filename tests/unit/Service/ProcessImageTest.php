@@ -41,4 +41,70 @@ final class ProcessImageTest extends WP_Mock\Tools\TestCase {
 		$this->assertEquals( $process, array( $this->service, 'process_image' ) );
 		$this->assertEquals( $output, 'imagegif' );
 	}
+
+	public function testDownscaleMethod() {
+		WP_Mock::onFilter( 'image-blur-modify-width' )
+			->with( 8 )
+			->reply( 20 );
+			
+		$image = imagecreate(400, 600);
+		$downscaled_image = $this->service->downscale( $image );
+
+		$width = imagesx($downscaled_image);
+		$height = imagesy($downscaled_image);
+		
+		$this->assertEquals($width, 20);
+		$this->assertEquals($height, 30);
+	}
+
+	public function testGaussianBlurMethod() {
+		$strength = 10;
+
+		// increase blur strength so difference can be seen with human eye. 
+		WP_Mock::onFilter( 'image-blur-modify-gaussian-blur-strength' )
+			->with( 1 )
+			->reply( $strength );
+
+		$mock_image_content = file_get_contents( "./tests/assets/test-image-gaussian-blur.jpg" );
+		$image = imagecreatefromstring( $mock_image_content );
+		$this->service->gaussian_blur( $image );
+		
+		ob_start();
+		imagejpeg( $image );
+		$mock_image_content = ob_get_contents();
+		ob_end_clean();
+
+		$expected_blur_image_content = file_get_contents( "./tests/assets/test-image-gaussian-blur-$strength.jpg" );
+
+		$this->assertEquals($mock_image_content, $expected_blur_image_content);
+	}
+
+	public function testProcessImageMethod() {
+		$mock_image_content = file_get_contents( "./tests/assets/test-image-process-image.jpg" );
+		$image = imagecreatefromstring( $mock_image_content );
+		$processed_image = $this->service->process_image($image);
+
+		ob_start();
+		imagejpeg( $processed_image );
+		$mock_image_content = ob_get_contents();
+		ob_end_clean();
+
+		$expected_image_content = file_get_contents( "./tests/assets/test-image-process-image-processed.jpg" );
+		$this->assertEquals($mock_image_content, $expected_image_content);
+	}
+	
+	public function testProcessPngMethod() {
+		$mock_image_content = file_get_contents( "./tests/assets/test-image-process-png.png" );
+		$image = imagecreatefromstring( $mock_image_content );
+		$processed_image = $this->service->process_png($image);
+
+		ob_start();
+		imagepng( $processed_image );
+		$mock_image_content = ob_get_contents();
+		ob_end_clean();
+
+		$expected_image_content = file_get_contents( "./tests/assets/test-image-process-png-processed.png" );
+		$this->assertEquals($mock_image_content, $expected_image_content);
+
+	}
 }

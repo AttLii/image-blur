@@ -65,7 +65,19 @@ class ProcessImage {
 	}
 
 	/**
-	 * PNG images have unique ability to be transparent, so we need to apply wanted changes with this specific function.
+	 * Processing function for non-png images.
+	 *
+	 * @param GdImage $image - Image object.
+	 * @return GdImage - modified Image object
+	 */
+	public function process_image( $image ) {
+		$image = $this->downscale( $image );
+		$this->gaussian_blur( $image );
+		return $image;
+	}
+
+	/**
+	 * PNG images have unique ability to be transparent, so we apply wanted changes with this specific function.
 	 *
 	 * @param GdImage $image - Image object.
 	 * @return GdImage - modified Image object.
@@ -95,17 +107,5 @@ class ProcessImage {
 		$this->gaussian_blur( $new_image );
 
 		return $new_image;
-	}
-
-	/**
-	 * Processing function for non-png images.
-	 *
-	 * @param GdImage $image - Image object.
-	 * @return GdImage - modified Image object
-	 */
-	public function process_image( $image ) {
-		$image = $this->downscale( $image );
-		$this->gaussian_blur( $image );
-		return $image;
 	}
 }
