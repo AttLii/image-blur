@@ -57,7 +57,7 @@ class ProcessImage {
 	 *
 	 * @param GdImage $image - Image object.
 	 */
-	public function gaussian_blur( $image ): void {
+	public function gaussian_blur( &$image ): void {
 		$strength = apply_filters( 'image-blur-modify-gaussian-blur-strength', 1 );
 		for ( $i = 1; $i <= $strength; $i++ ) {
 			imagefilter( $image, IMG_FILTER_GAUSSIAN_BLUR );
