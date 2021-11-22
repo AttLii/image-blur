@@ -17,7 +17,8 @@
 		"10up/wp_mock": "^0.4.2",
 		"mockery/mockery": "^1.4",
 		"squizlabs/php_codesniffer": "^3.6",
-		"wp-coding-standards/wpcs": "^2.3"
+		"wp-coding-standards/wpcs": "^2.3",
+		"spatie/phpunit-snapshot-assertions": "^4.2"
 	},
 	"scripts": {
 		"test": "./vendor/bin/phpunit tests",
