@@ -1,7 +1,6 @@
 <?php
 
 use ImageBlur\Service\ProcessImage;
-use Spatie\Snapshots\MatchesSnapshots;
 
 final class ProcessImageTest extends WP_Mock\Tools\TestCase {
 	/**
@@ -10,11 +9,6 @@ final class ProcessImageTest extends WP_Mock\Tools\TestCase {
 	 * @var ProcessImage
 	 */
 	public $service;
-
-	/**
-	 * Enables snapshot assertions in test class
-	 */
-	use MatchesSnapshots;
 
 	public function setUp(): void {
 		WP_Mock::setUp();
