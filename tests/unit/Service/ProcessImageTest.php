@@ -70,8 +70,6 @@ final class ProcessImageTest extends WP_Mock\Tools\TestCase {
 
 		$mock_image_content = file_get_contents( realpath( __DIR__ . "/../../assets/test-image-gaussian-blur.jpg" ) );
 		$mock_image = imagecreatefromstring( $mock_image_content );
-		$this->assertMatchesSnapshot(base64_encode($mock_image_content));
-
 		$this->service->gaussian_blur( $mock_image );
 
 		ob_start();
@@ -79,8 +77,7 @@ final class ProcessImageTest extends WP_Mock\Tools\TestCase {
 		$mock_image_content = ob_get_contents();
 		ob_end_clean();
 
-		$mock_blurred_image_content = file_get_contents( realpath( __DIR__ . "/../../assets/test-image-gaussian-blur-$strength.jpg" ) );
-		$this->assertTrue(sha1($mock_image_content) === sha1($mock_blurred_image_content));
+		$this->assertEquals(sha1($mock_image_content), sha1_file(realpath( __DIR__ . "/../../assets/test-image-gaussian-blur-$strength.jpg" )));
 	}
 
 	public function testProcessImageMethod() {
