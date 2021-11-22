@@ -1,6 +1,7 @@
 <?php
 
 use ImageBlur\Service\ProcessImage;
+use Spatie\Snapshots\MatchesSnapshots;
 
 final class ProcessImageTest extends WP_Mock\Tools\TestCase {
 	/**
@@ -9,6 +10,8 @@ final class ProcessImageTest extends WP_Mock\Tools\TestCase {
 	 * @var ProcessImage
 	 */
 	public $service;
+
+	use MatchesSnapshots;
 
 	public function setUp(): void {
 		WP_Mock::setUp();
@@ -67,6 +70,8 @@ final class ProcessImageTest extends WP_Mock\Tools\TestCase {
 
 		$mock_image_content = file_get_contents( realpath( __DIR__ . "/../../assets/test-image-gaussian-blur.jpg" ) );
 		$mock_image = imagecreatefromstring( $mock_image_content );
+		$this->assertMatchesSnapshot(base64_encode($mock_image_content));
+
 		$this->service->gaussian_blur( $mock_image );
 
 		ob_start();
