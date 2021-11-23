@@ -73,7 +73,7 @@ final class ProcessImageTest extends WP_Mock\Tools\TestCase {
 		$this->assertEquals( sha1($mock_image_content), sha1_file( "./tests/assets/test-image-gaussian-blur-1.jpg" ) );
 	}
 
-	public function testProcessImageMethod() {
+/* 	public function testProcessImageMethod() {
 		$mock_image_content = file_get_contents( realpath( __DIR__ . "/../../assets/test-image-process-image.jpg" ) );
 		$image = imagecreatefromstring( $mock_image_content );
 		$processed_image = $this->service->process_image($image);
@@ -100,5 +100,5 @@ final class ProcessImageTest extends WP_Mock\Tools\TestCase {
 		$expected_image_content = file_get_contents( realpath( __DIR__ . "/../../assets/test-image-process-png-processed.png" ) );
 		$this->assertEquals($mock_image_content, $expected_image_content);
 
-	}
+	} */
 }
