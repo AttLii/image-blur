@@ -65,6 +65,9 @@ final class ProcessImageTest extends WP_Mock\Tools\TestCase {
 		$mock_image = imagecreatefromstring( $mock_image_content );
 		$this->service->gaussian_blur( $mock_image );
 
+		echo "\n";
+		echo sha1($mock_image_content);
+		
 		ob_start();
 		imagejpeg( $mock_image );
 		$mock_image_content = ob_get_contents();
