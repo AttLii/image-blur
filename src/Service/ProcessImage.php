@@ -59,6 +59,8 @@ class ProcessImage {
 	 */
 	public function gaussian_blur( $image ): void {
 		$strength = apply_filters( 'image-blur-modify-gaussian-blur-strength', 1 );
+		echo $strength;
+		echo "\n";
 		for ( $i = 1; $i <= $strength; $i++ ) {
 			imagefilter( $image, IMG_FILTER_GAUSSIAN_BLUR );
 		}
