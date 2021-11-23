@@ -9,6 +9,7 @@ jobs:
         with:
           php-version: '7.4'
           tools: composer:v2
+      - run: composer install
       - run: composer test
   phpcs:
     runs-on: ubuntu-latest
@@ -18,4 +19,5 @@ jobs:
         with:
           php-version: '7.4'
           tools: composer:v2
+      - run: composer install
       - run: composer lint
