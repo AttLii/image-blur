@@ -70,10 +70,7 @@ final class ProcessImageTest extends WP_Mock\Tools\TestCase {
 		$mock_image_content = ob_get_contents();
 		ob_end_clean();
 
-		echo "\n";
-		echo $mock_image_content;
-		echo "\n";
-		$this->assertEquals( sha1($mock_image_content), sha1_file( "./tests/assets/test-image-gaussian-blur-1.jpg" ) );
+		$this->assertEquals( sha1($mock_image_content, true), sha1_file( "./tests/assets/test-image-gaussian-blur-1.jpg", true ) );
 	}
 
 /* 	public function testProcessImageMethod() {
