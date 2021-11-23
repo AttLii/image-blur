@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use ImageBlur\Service\ProcessImage;
 use Spatie\Snapshots\MatchesSnapshots;
@@ -63,14 +63,14 @@ final class ProcessImageTest extends WP_Mock\Tools\TestCase {
 	public function testGaussianBlurMethod() {
 		$mock_image_content = file_get_contents( "./tests/assets/test-image-gaussian-blur.jpg" );
 		
-		/* $mock_image = imagecreatefromstring( $mock_image_content );
+		$mock_image = imagecreatefromstring( $mock_image_content );
 		$this->service->gaussian_blur( $mock_image );
 
 		ob_start();
 		imagejpeg( $mock_image );
-		$mock_image_content = ob_get_clean(); */
+		$mock_image_content = ob_get_clean();
 
-		$this->assertEquals( sha1($mock_image_content), sha1_file( "./tests/assets/test-image-gaussian-blur.jpg") );
+		$this->assertEquals( sha1($mock_image_content), sha1_file( "./tests/assets/test-image-gaussian-blur-1.jpg") );
 	}
 
 /* 	public function testProcessImageMethod() {
