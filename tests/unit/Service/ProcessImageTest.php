@@ -108,7 +108,7 @@ final class ProcessImageTest extends WP_Mock\Tools\TestCase {
 		imagepng( $processed_image );
 		$processed_content = ob_get_clean();
 
-		$this->assertEquals( sha1( $processed_content ), sha1_file( "./tests/assets/process-png-processed.png" ) );
+		$this->assertEquals( $processed_content, file_get_contents("./tests/assets/process-png-processed.png") );
 	}
 
 	/**
