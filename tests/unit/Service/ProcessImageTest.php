@@ -57,7 +57,7 @@ final class ProcessImageTest extends WP_Mock\Tools\TestCase {
 		$this->assertEquals($height, 30);
 	}
 
-	public function testGaussianBlurWithPngTest() {
+	public function testGaussianBlurMethodWithPng() {
 		WP_Mock::onFilter( 'image-blur-modify-gaussian-blur-strength' )
 			->with( 1 )
 			->reply( 10 );
@@ -74,7 +74,7 @@ final class ProcessImageTest extends WP_Mock\Tools\TestCase {
 		$this->assertEquals( sha1( $processed_content ), sha1_file( "./tests/assets/gaussian-blur-processed.png" ) );
 	}
 
-	public function testGaussianBlurWithGifTest() {
+	public function testGaussianBlurMethodWithGif() {
 		WP_Mock::onFilter( 'image-blur-modify-gaussian-blur-strength' )
 			->with( 1 )
 			->reply( 10 );
