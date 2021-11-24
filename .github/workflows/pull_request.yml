@@ -7,7 +7,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4'
+          php-version: '7.4.24'
           extensions: gd
       - run: composer install
       - run: composer test
