@@ -111,6 +111,26 @@ final class ProcessImageTest extends WP_Mock\Tools\TestCase {
 		$this->assertEquals( $processed_content, file_get_contents("./tests/assets/process-png-processed.png") );
 	}
 
+	public function testProcessImageMethod() {
+		WP_Mock::onFilter( 'image-blur-modify-gaussian-blur-strength' )
+			->with( 1 )
+			->reply( 3 );
+		
+		WP_Mock::onFilter( 'image-blur-modify-width' )
+			->with( 8 )
+			->reply( 15 );
+
+		$content = file_get_contents( "./tests/assets/process-image-unprocessed.gif" );
+		$image = imagecreatefromstring( $content );
+		$processed_image = $this->service->process_image( $image );
+
+		ob_start();
+		imagegif( $processed_image );
+		$processed_content = ob_get_clean();
+
+		$this->assertEquals( sha1( $processed_content ), sha1_file( "./tests/assets/process-image-processed.gif" ) );
+	}
+
 	/**
 	 * Following two tests work in local but not in github actions. 
 	 */
