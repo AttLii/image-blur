@@ -5,10 +5,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: php-actions/composer@v6
+      - uses: shivammathur/setup-php@v2
         with:
-          php_version: 7.4
-          version: 2
+          php-version: '7.4.24'
+          extensions: gd
+      - run: composer install
       - run: composer test
   phpcs:
     runs-on: ubuntu-latest
