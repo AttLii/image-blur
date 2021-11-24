@@ -111,7 +111,7 @@ final class ProcessImageTest extends WP_Mock\Tools\TestCase {
 		$this->assertEquals( $processed_content, file_get_contents("./tests/assets/process-png-processed.png") );
 	}
 
-	public function testProcessImageMethod() {
+	public function testProcessImageMethodWithGif() {
 		WP_Mock::onFilter( 'image-blur-modify-gaussian-blur-strength' )
 			->with( 1 )
 			->reply( 3 );
@@ -129,6 +129,26 @@ final class ProcessImageTest extends WP_Mock\Tools\TestCase {
 		$processed_content = ob_get_clean();
 
 		$this->assertEquals( sha1( $processed_content ), sha1_file( "./tests/assets/process-image-processed.gif" ) );
+	}
+
+	public function testProcessImageMethodWithJpg() {
+		WP_Mock::onFilter( 'image-blur-modify-gaussian-blur-strength' )
+			->with( 1 )
+			->reply( 2 );
+		
+		WP_Mock::onFilter( 'image-blur-modify-width' )
+			->with( 8 )
+			->reply( 10 );
+
+		$content = file_get_contents( "./tests/assets/process-image-unprocessed.jpeg" );
+		$image = imagecreatefromstring( $content );
+		$processed_image = $this->service->process_image( $image );
+
+		ob_start();
+		imagegif( $processed_image );
+		$processed_content = ob_get_clean();
+
+		$this->assertEquals( sha1( $processed_content ), sha1_file( "./tests/assets/process-image-processed.jpeg" ) );
 	}
 
 	/**
