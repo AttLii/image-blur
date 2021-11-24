@@ -41,4 +41,19 @@ final class ProcessImageTest extends WP_Mock\Tools\TestCase {
 		$this->assertEquals( $process, array( $this->service, 'process_image' ) );
 		$this->assertEquals( $output, 'imagegif' );
 	}
+
+	public function testDownscaleMethod() {
+		WP_Mock::onFilter( 'image-blur-modify-width' )
+			->with( 8 )
+			->reply( 20 );
+			
+		$image = imagecreate(400, 600);
+		$downscaled_image = $this->service->downscale( $image );
+
+		$width = imagesx($downscaled_image);
+		$height = imagesy($downscaled_image);
+		
+		$this->assertEquals($width, 20);
+		$this->assertEquals($height, 30);
+	}
 }
