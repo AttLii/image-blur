@@ -58,6 +58,10 @@ final class ProcessImageTest extends WP_Mock\Tools\TestCase {
 	}
 
 	public function testGaussianBlurTest() {
+		WP_Mock::onFilter( 'image-blur-modify-gaussian-blur-strength' )
+			->with( 1 )
+			->reply( 10 );
+
 		$content = file_get_contents( "./tests/assets/gaussian-blur-unprocessed.png" );
 		$image = imagecreatefromstring( $content );
 
