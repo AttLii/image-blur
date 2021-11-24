@@ -9,16 +9,6 @@ jobs:
         with:
           php-version: '7.4'
           tools: composer:v2
-          extensions: gd
+          extensions: php-gd
       - run: composer install
       - run: composer test
-  phpcs:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: '7.4'
-          tools: composer:v2
-      - run: composer install
-      - run: composer lint
