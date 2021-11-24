@@ -111,8 +111,7 @@ class Plugin {
 
 					ob_start();
 					$output_func( $image );
-					$contents = ob_get_contents();
-					ob_end_clean();
+					$contents = ob_get_clean();
 
 					$data = 'data:' . $mime . ';base64,' . base64_encode( $contents );
 
