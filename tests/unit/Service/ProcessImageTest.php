@@ -91,26 +91,6 @@ final class ProcessImageTest extends WP_Mock\Tools\TestCase {
 		$this->assertEquals( sha1( $processed_content ), sha1_file( "./tests/assets/gaussian-blur-processed.gif" ) );
 	}
 
-	public function testProcessPngMethod() {
-		WP_Mock::onFilter( 'image-blur-modify-gaussian-blur-strength' )
-			->with( 1 )
-			->reply( 2 );
-		
-		WP_Mock::onFilter( 'image-blur-modify-width' )
-			->with( 8 )
-			->reply( 10 );
-
-		$content = file_get_contents( "./tests/assets/process-png-unprocessed.png" );
-		$image = imagecreatefromstring( $content );
-		$processed_image = $this->service->process_png( $image );
-
-		ob_start();
-		imagepng( $processed_image );
-		$processed_content = ob_get_clean();
-
-		$this->assertEquals( $processed_content, file_get_contents("./tests/assets/process-png-processed.png") );
-	}
-
 	public function testProcessImageMethodWithGif() {
 		WP_Mock::onFilter( 'image-blur-modify-gaussian-blur-strength' )
 			->with( 1 )
@@ -152,10 +132,31 @@ final class ProcessImageTest extends WP_Mock\Tools\TestCase {
 	}
 
 	/**
-	 * Following two tests work in local but not in github actions. 
+	 * Following three tests work in local but not in github actions. 
 	 */
 
-	 /* public function testGaussianBlurWithJpgTest() {
+	 /*
+		public function testProcessPngMethod() {
+			WP_Mock::onFilter( 'image-blur-modify-gaussian-blur-strength' )
+				->with( 1 )
+				->reply( 2 );
+			
+			WP_Mock::onFilter( 'image-blur-modify-width' )
+				->with( 8 )
+				->reply( 10 );
+
+			$content = file_get_contents( "./tests/assets/process-png-unprocessed.png" );
+			$image = imagecreatefromstring( $content );
+			$processed_image = $this->service->process_png( $image );
+
+			ob_start();
+			imagepng( $processed_image );
+			$processed_content = ob_get_clean();
+
+			$this->assertEquals( $processed_content, file_get_contents("./tests/assets/process-png-processed.png") );
+		}
+	 
+	 public function testGaussianBlurWithJpgTest() {
 		WP_Mock::onFilter( 'image-blur-modify-gaussian-blur-strength' )
 			->with( 1 )
 			->reply( 5 );
