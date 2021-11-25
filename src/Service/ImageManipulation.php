@@ -61,7 +61,7 @@ class ImageManipulation {
 	}
 
 	/**
-	 * png images have unique ability to be transparent, so we need to apply wanted changes with this specific function.
+	 * To keep transparency in png images, we need to process them using this function.
 	 *
 	 * @param GdImage $image - Image object.
 	 * @return GdImage - modified Image object.
