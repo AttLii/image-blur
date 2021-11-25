@@ -107,7 +107,7 @@ class Plugin {
 					$output( $image );
 					$contents = ob_get_clean();
 
-					$data = 'data:' . $mime . ';base64,' . base64_encode( $contents );
+					$data = base64_encode( $contents );
 					$this->image_blur_repository->set( $id, $size, $data );
 				}
 			}
