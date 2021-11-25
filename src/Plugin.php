@@ -5,7 +5,7 @@ use ImageBlur\Constants;
 use ImageBlur\Utils;
 use ImageBlur\Repository\Image as ImageRepository;
 use ImageBlur\Repository\ImageBlur as ImageBlurRepository;
-use ImageBlur\Service\ProcessImage as ProcessImageService;
+use ImageBlur\Service\ImageManipulation as ImageManipulationService;
 use ImageBlur\Parser\Attachment as AttachmentParser;
 
 /**
@@ -35,9 +35,9 @@ class Plugin {
 	/**
 	 * Instantiated process image service class.
 	 *
-	 * @var ProcessImageService
+	 * @var ImageManipulationService
 	 */
-	public $process_image_service;
+	public $image_manipulation_service;
 
 	/**
 	 * Class constructor
@@ -45,7 +45,7 @@ class Plugin {
 	public function __construct() {
 		$this->image_repository = new ImageRepository();
 		$this->image_blur_repository  = new ImageBlurRepository();
-		$this->process_image_service = new ProcessImageService();
+		$this->image_manipulation_service = new ImageManipulationService();
 
 		$this->add_hooks();
 	}
@@ -94,34 +94,38 @@ class Plugin {
 			$this->image_blur_repository->clear( $id );
 
 			$mime = $this->image_repository->get_mime_type( $id );
+			list( $create, $output ) = $this->choose_funcs_for_mime_type( $mime );
 
-			list( $process_func, $output_func ) = $this->process_image_service->choose_funcs_for_mime_type( $mime );
-
-			if ( $process_func !== null && $output_func !== null ) {
-
+			if ( function_exists( $create ) && function_exists( $output ) ) {
 				list( 'basedir' => $basedir ) = wp_upload_dir();
-
 				$sizes = AttachmentParser::parse_sizes_from_metadata( $metadata );
-
 				foreach ( $sizes as $size => $path ) {
-					$content = file_get_contents( "$basedir/$path" );
-
-					$image = imagecreatefromstring( $content );
-					$image = $process_func( $image );
+					$image = $create( "$basedir/$path" );
+					$image = $this->image_manipulation_service->process_image( $mime, $image );
 
 					ob_start();
-					$output_func( $image );
-					$contents = ob_get_contents();
-					ob_end_clean();
+					$output( $image );
+					$contents = ob_get_clean();
 
-					$data = 'data:' . $mime . ';base64,' . base64_encode( $contents );
-
+					$data = base64_encode( $contents );
 					$this->image_blur_repository->set( $id, $size, $data );
 				}
 			}
 		}
 
 		return $metadata;
+	}
+
+	/**
+	 * Php opens and outputs images using different functions. In this method, we choose correct one using mime type.
+	 * Remember to use function_exists() before using returned functions.
+	 *
+	 * @param string $mime - mime type (f.e. image/jpeg).
+	 * @return array - array where first index is image open function and second index output function.
+	 */
+	public function choose_funcs_for_mime_type( string $mime ): array {
+		$type = explode( '/', $mime )[1];
+		return array( "imagecreatefrom$type", "image$type" );
 	}
 
 	/**

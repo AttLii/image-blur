@@ -1,18 +1,18 @@
 <?php
 
-use ImageBlur\Service\ProcessImage;
+use ImageBlur\Service\ImageManipulation;
 
-final class ProcessImageTest extends WP_Mock\Tools\TestCase {
+final class ImageManipulationTest extends WP_Mock\Tools\TestCase {
 	/**
-	 * Instantiated Process Image class
+	 * Instantiated Image Manipulation class
 	 *
-	 * @var ProcessImage
+	 * @var ImageManipulation
 	 */
 	public $service;
 
 	public function setUp(): void {
 		WP_Mock::setUp();
-		$this->service = new ProcessImage();
+		$this->service = new ImageManipulation();
 	}
 
 	public function tearDown(): void {
@@ -21,25 +21,27 @@ final class ProcessImageTest extends WP_Mock\Tools\TestCase {
 	}
 
 	public function testCanCreateInstanceOfClass() {
-		$this->assertInstanceOf( ProcessImage::class, $this->service );
+		$this->assertInstanceOf( ImageManipulation::class, $this->service );
 	}
 
-	public function testChooseFuncsForMimeTypeMethod() {
-		list( $process, $output ) = $this->service->choose_funcs_for_mime_type( 'unknown/mime' );
-		$this->assertNull( $process );
-		$this->assertNull( $output );
+	public function testProcessImageMethodToCallTransparentProcess() {
+		$service_mock = Mockery::mock('ImageBlur\Service\ImageManipulation[process_png]');
+		$service_mock->shouldReceive("process_png")->andReturn("foo");
 
-		list( $process, $output ) = $this->service->choose_funcs_for_mime_type( 'image/png' );
-		$this->assertEquals( $process, array( $this->service, 'process_png' ) );
-		$this->assertEquals( $output, 'imagepng' );
+		$image = imagecreatefrompng("./tests/assets/gaussian-blur-unprocessed.png");
 
-		list( $process, $output ) = $this->service->choose_funcs_for_mime_type( 'image/jpeg' );
-		$this->assertEquals( $process, array( $this->service, 'process_image' ) );
-		$this->assertEquals( $output, 'imagejpeg' );
+		$result = $service_mock->process_image("image/png", $image);
+		$this->assertEquals($result, "foo");
+	}
 
-		list( $process, $output ) = $this->service->choose_funcs_for_mime_type( 'image/gif' );
-		$this->assertEquals( $process, array( $this->service, 'process_image' ) );
-		$this->assertEquals( $output, 'imagegif' );
+	public function testProcessImageMethodToCallGenericProcess() {
+		$service_mock = Mockery::mock('ImageBlur\Service\ImageManipulation[generic_process]');
+		$service_mock->shouldReceive("generic_process")->andReturn("foo");
+
+		$image = imagecreatefromjpeg("./tests/assets/gaussian-blur-unprocessed.jpeg");
+
+		$result = $service_mock->process_image("image/jpeg", $image);
+		$this->assertEquals($result, "foo");
 	}
 
 	public function testDownscaleMethod() {
@@ -62,9 +64,7 @@ final class ProcessImageTest extends WP_Mock\Tools\TestCase {
 			->with( 1 )
 			->reply( 10 );
 
-		$content = file_get_contents( "./tests/assets/gaussian-blur-unprocessed.png" );
-		$image = imagecreatefromstring( $content );
-
+		$image = imagecreatefrompng( "./tests/assets/gaussian-blur-unprocessed.png" );
 		$this->service->gaussian_blur( $image );
 
 		ob_start();
@@ -79,8 +79,7 @@ final class ProcessImageTest extends WP_Mock\Tools\TestCase {
 			->with( 1 )
 			->reply( 10 );
 
-		$content = file_get_contents( "./tests/assets/gaussian-blur-unprocessed.gif" );
-		$image = imagecreatefromstring( $content );
+		$image = imagecreatefromgif( "./tests/assets/gaussian-blur-unprocessed.gif" );
 
 		$this->service->gaussian_blur( $image );
 
@@ -91,7 +90,7 @@ final class ProcessImageTest extends WP_Mock\Tools\TestCase {
 		$this->assertEquals( sha1( $processed_content ), sha1_file( "./tests/assets/gaussian-blur-processed.gif" ) );
 	}
 
-	public function testProcessImageMethodWithGif() {
+	public function testGenericProcessMethodWithGif() {
 		WP_Mock::onFilter( 'image-blur-modify-gaussian-blur-strength' )
 			->with( 1 )
 			->reply( 3 );
@@ -100,9 +99,8 @@ final class ProcessImageTest extends WP_Mock\Tools\TestCase {
 			->with( 8 )
 			->reply( 15 );
 
-		$content = file_get_contents( "./tests/assets/process-image-unprocessed.gif" );
-		$image = imagecreatefromstring( $content );
-		$processed_image = $this->service->process_image( $image );
+		$image = imagecreatefromgif( "./tests/assets/process-image-unprocessed.gif" );
+		$processed_image = $this->service->generic_process( $image );
 
 		ob_start();
 		imagegif( $processed_image );
@@ -111,7 +109,7 @@ final class ProcessImageTest extends WP_Mock\Tools\TestCase {
 		$this->assertEquals( sha1( $processed_content ), sha1_file( "./tests/assets/process-image-processed.gif" ) );
 	}
 
-	public function testProcessImageMethodWithJpg() {
+	public function testGenericProcessMethodWithJpg() {
 		WP_Mock::onFilter( 'image-blur-modify-gaussian-blur-strength' )
 			->with( 1 )
 			->reply( 2 );
@@ -120,9 +118,8 @@ final class ProcessImageTest extends WP_Mock\Tools\TestCase {
 			->with( 8 )
 			->reply( 10 );
 
-		$content = file_get_contents( "./tests/assets/process-image-unprocessed.jpeg" );
-		$image = imagecreatefromstring( $content );
-		$processed_image = $this->service->process_image( $image );
+		$image = imagecreatefromjpeg( "./tests/assets/process-image-unprocessed.jpeg" );
+		$processed_image = $this->service->generic_process( $image );
 
 		ob_start();
 		imagegif( $processed_image );

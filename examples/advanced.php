@@ -4,7 +4,7 @@
  */
 
 // existing image attachment's id.
-$id = 17;
+$attachment_id = 17;
 
 $prefix = 'image_blur_';
 
@@ -12,10 +12,14 @@ $image_size = 'full';
 
 $key = $prefix . $image_size;
 
-// this value can be null in various cases, do null checking if necessary.
-$blur_data = get_post_meta( $id, $key, true );
+$mime = get_post_mime_type( $attachment_id );
 
-list($url, $width, $height) = wp_get_attachment_image_src( $id, $image_size );
+// this value can be null in various cases, do null checking if necessary.
+$blur_data = get_post_meta( $attachment_id, $key, true );
+
+list($url, $width, $height) = wp_get_attachment_image_src( $attachment_id, $image_size );
+
+$src = "data:$mime;base64,$blur_data";
 
 ?>
 <div class="image-wrapper">

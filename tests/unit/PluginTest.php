@@ -319,4 +319,19 @@ final class PluginTest extends WP_Mock\Tools\TestCase {
 
 		$this->assertTrue( true );
 	}
+	/**
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testChooseFuncsForMimeType() {
+		$plugin = new Plugin();
+		
+		$this->assertEquals(
+			$plugin->choose_funcs_for_mime_type("image/jpeg"),
+			array(
+				"imagecreatefromjpeg", "imagejpeg"
+			)
+		);
+	}
 }

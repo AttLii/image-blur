@@ -7,37 +7,21 @@ namespace ImageBlur\Service;
 defined( 'WPINC' ) || die;
 
 /**
- * Class for processing images.
+ * Class for manipulating images.
  */
-class ProcessImage {
+class ImageManipulation {
 
 	/**
-	 * Php processes and outputs image data in different ways depending on the mime type.
-	 * These two functions are chosen in this method and returned as an array.
-	 * This can also return null for both or either functions, when mime type is not supported.
+	 * Processing function for images. We need mime type so we can process pngs with it's own method.
 	 *
-	 * @param string $mime_type - mime type we use to get correct functions.
-	 * @return array - array where first index is processing function and second output function.
+	 * @param string  $mime - mime type of the image object.
+	 * @param GdImage $image - Image object.
+	 * @return GdImage - modified Image object.
 	 */
-	public function choose_funcs_for_mime_type( string $mime_type ): array {
-		$process_func = null;
-		$output_func = null;
-
-		if ( $mime_type === 'image/png' ) {
-			$process_func = array( $this, 'process_png' );
-			$output_func = 'imagepng';
-		} else if ( $mime_type === 'image/jpeg' ) {
-			$process_func = array( $this, 'process_image' );
-			$output_func = 'imagejpeg';
-		} else if ( $mime_type === 'image/gif' ) {
-			$process_func = array( $this, 'process_image' );
-			$output_func = 'imagegif';
-		}
-
-		return array(
-			$process_func,
-			$output_func,
-		);
+	public function process_image( string $mime, $image ) {
+		return $mime === 'image/png'
+			? $this->process_png( $image )
+			: $this->generic_process( $image );
 	}
 
 	/**
@@ -65,7 +49,19 @@ class ProcessImage {
 	}
 
 	/**
-	 * PNG images have unique ability to be transparent, so we need to apply wanted changes with this specific function.
+	 * A generic process function for images.
+	 *
+	 * @param GDImage $image - image object that needs processing.
+	 * @return GDImage $downscaled - downscaled and blurred image.
+	 */
+	public function generic_process( $image ) {
+		$downscaled = $this->downscale( $image );
+		$this->gaussian_blur( $downscaled );
+		return $downscaled;
+	}
+
+	/**
+	 * To keep transparency in png images, we need to process them using this function.
 	 *
 	 * @param GdImage $image - Image object.
 	 * @return GdImage - modified Image object.
@@ -95,17 +91,5 @@ class ProcessImage {
 		$this->gaussian_blur( $new_image );
 
 		return $new_image;
-	}
-
-	/**
-	 * Processing function for non-png images.
-	 *
-	 * @param GdImage $image - Image object.
-	 * @return GdImage - modified Image object
-	 */
-	public function process_image( $image ) {
-		$image = $this->downscale( $image );
-		$this->gaussian_blur( $image );
-		return $image;
 	}
 }

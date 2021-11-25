@@ -11,7 +11,7 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Generates base64 encoded, downscaled and blurred versions of media library's images, which can be used f.e. as a placeholder.
 
 == Inspiration ==
-After Wolt showcased their [Blurhash](https://blurha.sh/) technique, I wanted to make something similar to Wordpress. Instead of encoding images to base83 like the food delivery company, I went with base64 so development experience was easier. Using different encoding is on the roadmap. 
+After Wolt showcased their [Blurhash](https://blurha.sh/) technique, I wanted to make something similar to Wordpress. Instead of encoding images to base83 like the food delivery company does, I went with base64 so development experience was easier.
 
 == How to start using the plugin ==
 - Install and activate this plugin in your environment
@@ -33,6 +33,10 @@ To regenerate blurs you can:
 This plugin cleans up generated blurs when it is deactivated.
 
 For manual deletion (which shouldn't be needed), you can remove all rows from `wp_postmeta` table that have `image_blur_` prefix in `meta_key` column.
+
+= Which image formats are supported? =
+
+During development phase, this plugin was tested with .jpg, .jpeg, .gif, .png and .webp, which are the default accepted image types to media library.
 
 == Customization ==
 
