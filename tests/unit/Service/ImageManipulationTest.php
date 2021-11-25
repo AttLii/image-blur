@@ -1,18 +1,18 @@
 <?php
 
-use ImageBlur\Service\ProcessImage;
+use ImageBlur\Service\ImageManipulation;
 
-final class ProcessImageTest extends WP_Mock\Tools\TestCase {
+final class ImageManipulationTest extends WP_Mock\Tools\TestCase {
 	/**
-	 * Instantiated Process Image class
+	 * Instantiated Image Manipulation class
 	 *
-	 * @var ProcessImage
+	 * @var ImageManipulation
 	 */
 	public $service;
 
 	public function setUp(): void {
 		WP_Mock::setUp();
-		$this->service = new ProcessImage();
+		$this->service = new ImageManipulation();
 	}
 
 	public function tearDown(): void {
@@ -21,12 +21,12 @@ final class ProcessImageTest extends WP_Mock\Tools\TestCase {
 	}
 
 	public function testCanCreateInstanceOfClass() {
-		$this->assertInstanceOf( ProcessImage::class, $this->service );
+		$this->assertInstanceOf( ImageManipulation::class, $this->service );
 	}
 
 	public function testProcessImageMethodToCallTransparentProcess() {
-		$service_mock = Mockery::mock('ImageBlur\Service\ProcessImage[transparent_process]');
-		$service_mock->shouldReceive("transparent_process")->andReturn("foo");
+		$service_mock = Mockery::mock('ImageBlur\Service\ImageManipulation[process_png]');
+		$service_mock->shouldReceive("process_png")->andReturn("foo");
 
 		$image = imagecreatefrompng("./tests/assets/gaussian-blur-unprocessed.png");
 
@@ -35,7 +35,7 @@ final class ProcessImageTest extends WP_Mock\Tools\TestCase {
 	}
 
 	public function testProcessImageMethodToCallGenericProcess() {
-		$service_mock = Mockery::mock('ImageBlur\Service\ProcessImage[generic_process]');
+		$service_mock = Mockery::mock('ImageBlur\Service\ImageManipulation[generic_process]');
 		$service_mock->shouldReceive("generic_process")->andReturn("foo");
 
 		$image = imagecreatefromjpeg("./tests/assets/gaussian-blur-unprocessed.jpeg");

@@ -7,9 +7,9 @@ namespace ImageBlur\Service;
 defined( 'WPINC' ) || die;
 
 /**
- * Class for processing images.
+ * Class for manipulating images.
  */
-class ProcessImage {
+class ImageManipulation {
 
 	/**
 	 * Processing function for images. We need mime type so we can process pngs with it's own method.
@@ -20,7 +20,7 @@ class ProcessImage {
 	 */
 	public function process_image( string $mime, $image ) {
 		return $mime === 'image/png'
-			? $this->transparent_process( $image )
+			? $this->process_png( $image )
 			: $this->generic_process( $image );
 	}
 
@@ -61,12 +61,12 @@ class ProcessImage {
 	}
 
 	/**
-	 * Some images have unique ability to be transparent, so we need to apply wanted changes with this specific function.
+	 * png images have unique ability to be transparent, so we need to apply wanted changes with this specific function.
 	 *
 	 * @param GdImage $image - Image object.
 	 * @return GdImage - modified Image object.
 	 */
-	public function transparent_process( $image ) {
+	public function process_png( $image ) {
 		$width = imagesx( $image );
 		$height = imagesy( $image );
 

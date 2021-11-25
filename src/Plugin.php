@@ -5,7 +5,7 @@ use ImageBlur\Constants;
 use ImageBlur\Utils;
 use ImageBlur\Repository\Image as ImageRepository;
 use ImageBlur\Repository\ImageBlur as ImageBlurRepository;
-use ImageBlur\Service\ProcessImage as ProcessImageService;
+use ImageBlur\Service\ImageManipulation as ImageManipulationService;
 use ImageBlur\Parser\Attachment as AttachmentParser;
 
 /**
@@ -35,9 +35,9 @@ class Plugin {
 	/**
 	 * Instantiated process image service class.
 	 *
-	 * @var ProcessImageService
+	 * @var ImageManipulationService
 	 */
-	public $process_image_service;
+	public $image_manipulation_service;
 
 	/**
 	 * Class constructor
@@ -45,7 +45,7 @@ class Plugin {
 	public function __construct() {
 		$this->image_repository = new ImageRepository();
 		$this->image_blur_repository  = new ImageBlurRepository();
-		$this->process_image_service = new ProcessImageService();
+		$this->image_manipulation_service = new ImageManipulationService();
 
 		$this->add_hooks();
 	}
@@ -101,7 +101,7 @@ class Plugin {
 				$sizes = AttachmentParser::parse_sizes_from_metadata( $metadata );
 				foreach ( $sizes as $size => $path ) {
 					$image = $create( "$basedir/$path" );
-					$image = $this->process_image_service->process_image( $mime, $image );
+					$image = $this->image_manipulation_service->process_image( $mime, $image );
 
 					ob_start();
 					$output( $image );
