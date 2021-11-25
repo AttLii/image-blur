@@ -13,7 +13,7 @@ class Attachment {
 	 * This also appends default image path to the array, which is also in the metadata.
 	 *
 	 * @param array $metadata - metadata passed to f.e. wp_generate_attachment_metadata hook.
-	 * @return array - array where key is the slug of image size and value path inside uploads folder to the image.
+	 * @return array - array where the key is the slug of image size and the value is the path inside uploads folder to the image.
 	 */
 	public static function parse_sizes_from_metadata( $metadata ): array {
 		$file = $metadata['file'];
@@ -22,7 +22,7 @@ class Attachment {
 		$sizes[ Constants::DEFAULT_IMAGE_SIZE ] = $file;
 
 		foreach ( $metadata['sizes'] as $size => $size_data ) {
-			$sizes[ $size ] = $file_dir . '/' . $size_data['file'];
+			$sizes[ $size ]  = $file_dir . '/' . $size_data['file'];
 		}
 
 		return $sizes;
