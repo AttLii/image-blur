@@ -16,13 +16,17 @@ class Image {
 
 	/**
 	 * Returns all image size slugs registered to Wordpress environment
+	 *
+	 * @return array - array of defined image size slugs.
 	 */
 	public function get_all_image_sizes(): array {
 		return get_intermediate_image_sizes();
 	}
 
 	/**
-	 * Convenience function that returns all image sizes with added "default" size
+	 * Convenience function that returns all image sizes with added "default" size.
+	 *
+	 * @return array - array of defined image size slugs with default size.
 	 */
 	public function get_all_image_sizes_with_default() {
 		$sizes = $this->get_all_image_sizes();
@@ -32,7 +36,7 @@ class Image {
 	}
 
 	/**
-	 * Checks if passed in id belongs to an image attachment
+	 * Checks if passed in id belongs to an image attachment.
 	 *
 	 * @param int $id - Attachment's id.
 	 * @return bool - true if id is for image attachment.
@@ -42,7 +46,9 @@ class Image {
 	}
 
 	/**
-	 * Gets all image ids
+	 * Gets all image ids.
+	 *
+	 * @return array - array of integers.
 	 */
 	public function get_all_image_ids(): array {
 		return get_posts(
