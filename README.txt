@@ -2,8 +2,8 @@
 Contributors: attlii
 Tags: media, image, blur
 Requires at least: 5.6
-Tested up to: 5.8
-Stable tag: 1.0.5
+Tested up to: 5.8.2
+Stable tag: 1.0.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -28,11 +28,11 @@ To regenerate blurs you can:
 - use [WP CLI](https://developer.wordpress.org/cli/commands/media/regenerate/) if your environment has it installed.
 - reactive this plugin (not recommended on high traffic sites)
 
-= This bloats my database way too much, how do I clean up DB from this mess? =
+= How do I clear DB from blur data? =
 
 This plugin cleans up generated blurs when it is deactivated.
 
-For manual deletion (which shouldn't be needed), you can remove all rows from `wp_postmeta` table that have `image_blur_` prefix in `meta_key` column.
+For manual deletion, you can remove all rows from `wp_postmeta` table that have `image_blur_` prefix in `meta_key` column.
 
 = Which image formats are supported? =
 
