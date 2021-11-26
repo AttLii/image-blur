@@ -20,7 +20,9 @@ final class PluginTest extends WP_Mock\Tools\TestCase {
 	public function testAddHooksMethod() {
 		$plugin = new Plugin();
 		WP_Mock::expectFilterAdded( 'wp_generate_attachment_metadata', array( $plugin, 'generate_blur_for_attachment' ), 10, 2 );
+		WP_Mock::expectFilterAdded( 'wp_update_attachment_metadata', array( $plugin, 'generate_blur_for_attachment' ), 10, 2 );
 		WP_Mock::expectFilterAdded( 'attachment_fields_to_edit', array( $plugin, 'render_blur_data_in_edit_view' ), 10, 2 );
+		WP_Mock::expectActionAdded( 'delete_attachment', array( $plugin, 'remove_blurs_for_removed_attachment' ) );
 		$plugin->add_hooks();
 
 		$this->assertHooksAdded();

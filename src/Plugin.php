@@ -55,6 +55,7 @@ class Plugin {
 	 */
 	public function add_hooks(): void {
 		add_filter( 'wp_generate_attachment_metadata', array( $this, 'generate_blur_for_attachment' ), 10, 2 );
+		add_filter( 'wp_update_attachment_metadata', array( $this, 'generate_blur_for_attachment' ), 10, 2 );
 		add_filter( 'attachment_fields_to_edit', array( $this, 'render_blur_data_in_edit_view' ), 10, 2 );
 		add_action( 'delete_attachment', array( $this, 'remove_blurs_for_removed_attachment' ) );
 	}
@@ -82,7 +83,7 @@ class Plugin {
 	}
 
 	/**
-	 * Function is attached to wp_generate_attachment_metadata hook.
+	 * Function is attached to wp_generate_attachment_metadata and wp_update_attachment_metadata filter.
 	 * It generates downscaled and blurred version of the image to postmeta table.
 	 *
 	 * @param array $metadata - meta data information about the uploaded attachment.
