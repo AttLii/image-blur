@@ -40,7 +40,7 @@ class Plugin {
 	public $image_manipulation_service;
 
 	/**
-	 * Class constructor
+	 * Class constructor.
 	 */
 	public function __construct() {
 		$this->image_repository = new ImageRepository();
@@ -65,6 +65,7 @@ class Plugin {
 	 *
 	 * @param array   $form_fields - array of existing form_fields.
 	 * @param WP_Post $post - attachment as a post object.
+	 * @return array $form_fields - modified form_fields parameter.
 	 */
 	public function render_blur_data_in_edit_view( $form_fields, $post ) {
 		if ( $this->image_repository->is_image( $post->ID ) ) {
@@ -88,6 +89,7 @@ class Plugin {
 	 *
 	 * @param array $metadata - meta data information about the uploaded attachment.
 	 * @param int   $id - id of the attachment.
+	 * @return array $metadata - passed in metadata value.
 	 */
 	public function generate_blur_for_attachment( $metadata, $id ) {
 		if ( $this->image_repository->is_image( $id ) ) {
