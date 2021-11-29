@@ -2,7 +2,6 @@
 
 namespace ImageBlur\Service;
 
-
 /**
  * Stop execution if not in Wordpress environment
  */
@@ -16,7 +15,7 @@ class ImageManipulation {
 	/**
 	 * Processing function for images. We need mime type so we can process pngs with it's own method.
 	 *
-	 * @param string  $mime - mime type of the image object.
+	 * @param string   $mime - mime type of the image object.
 	 * @param resource $image - Image object.
 	 * @return resource - modified Image object.
 	 */
