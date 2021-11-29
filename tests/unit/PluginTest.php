@@ -21,7 +21,7 @@ final class PluginTest extends WP_Mock\Tools\TestCase {
 		$plugin = new Plugin();
 		WP_Mock::expectFilterAdded( 'wp_generate_attachment_metadata', array( $plugin, 'generate_blur_for_attachment' ), 10, 2 );
 		WP_Mock::expectFilterAdded( 'wp_update_attachment_metadata', array( $plugin, 'generate_blur_for_attachment' ), 10, 2 );
-		WP_Mock::expectFilterAdded( 'attachment_fields_to_edit', array( $plugin, 'render_blur_data_in_edit_view' ), 10, 2 );
+		WP_Mock::expectFilterAdded( 'attachment_fields_to_edit', array( $plugin, 'render_blur_to_edit_view' ), 10, 2 );
 		WP_Mock::expectActionAdded( 'delete_attachment', array( $plugin, 'remove_blurs_for_removed_attachment' ) );
 		$plugin->add_hooks();
 
@@ -34,7 +34,7 @@ final class PluginTest extends WP_Mock\Tools\TestCase {
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testRenderBlurDataInEditViewMethodWithBadAttachment() {
+	public function testRenderBlurToEditViewMethodWithBadAttachment() {
 		$mock_image_repository = Mockery::mock( 'overload:ImageBlur\Repository\Image' );
 
 		$mock_image_repository->shouldReceive( 'is_image' )
@@ -48,7 +48,7 @@ final class PluginTest extends WP_Mock\Tools\TestCase {
 		$mock_post->ID = 404;
 
 		$plugin = new Plugin();
-		$result = $plugin->render_blur_data_in_edit_view( array(), $mock_post );
+		$result = $plugin->render_blur_to_edit_view( array(), $mock_post );
 
 		$this->assertEquals( $result, array() );
 	}
@@ -59,7 +59,7 @@ final class PluginTest extends WP_Mock\Tools\TestCase {
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testRenderBlurDataInEditViewMethodWithNoImageSizes() {
+	public function testRenderBlurToEditViewMethodWithNoImageSizes() {
 		$image_repository_mock = Mockery::mock( 'overload:ImageBlur\Repository\Image' );
 		$image_repository_mock->shouldReceive( 'is_image' )
 			->with( 1 )
@@ -83,7 +83,7 @@ final class PluginTest extends WP_Mock\Tools\TestCase {
 		);
 
 		$plugin = new Plugin();
-		$result = $plugin->render_blur_data_in_edit_view( $form_fields, $mock_post );
+		$result = $plugin->render_blur_to_edit_view( $form_fields, $mock_post );
 
 		$this->assertEquals( $result, $form_fields );
 	}
@@ -94,7 +94,7 @@ final class PluginTest extends WP_Mock\Tools\TestCase {
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testRenderBlurDataInEditViewMethod() {
+	public function testRenderBlurToEditViewMethod() {
 		$image_repository_mock = Mockery::mock( 'overload:ImageBlur\Repository\Image' );
 
 		$image_repository_mock->shouldReceive( 'is_image' )
@@ -158,7 +158,7 @@ final class PluginTest extends WP_Mock\Tools\TestCase {
 		);
 
 		$plugin = new Plugin();
-		$result = $plugin->render_blur_data_in_edit_view( $form_fields, $mock_post );
+		$result = $plugin->render_blur_to_edit_view( $form_fields, $mock_post );
 
 		$this->assertEquals(
 			$result,
