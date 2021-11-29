@@ -19,8 +19,8 @@ class Attachment {
 		$file = $metadata['file'];
 		$file_dir = dirname( $file );
 
+		$sizes = array();
 		$sizes[ Constants::DEFAULT_IMAGE_SIZE ] = $file;
-
 		foreach ( $metadata['sizes'] as $size => $size_data ) {
 			$sizes[ $size ]  = $file_dir . '/' . $size_data['file'];
 		}

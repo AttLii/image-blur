@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<psalm errorLevel="4">
+	<projectFiles>
+		<directory name="src"/>
+	</projectFiles>
+	<plugins>
+		<pluginClass class="PsalmWordPress\Plugin"/>
+	</plugins>
+</psalm>
