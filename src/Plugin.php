@@ -69,7 +69,7 @@ class Plugin {
 	 */
 	public function render_blur_data_in_edit_view( $form_fields, $post ) {
 		if ( $this->image_repository->is_image( $post->ID ) ) {
-			$mime = get_post_mime_type( $post->ID );
+			$mime = $this->image_repository->get_mime_type( $post->ID );
 
 			$sizes = $this->image_repository->get_all_image_sizes_with_default();
 
