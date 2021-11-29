@@ -70,18 +70,16 @@ class Plugin {
 	public function render_blur_to_edit_view( $form_fields, $post ) {
 		if ( $this->image_repository->is_image( $post->ID ) ) {
 			$mime = $this->image_repository->get_mime_type( $post->ID );
-			if ( is_string( $mime ) ) {
-				$sizes = $this->image_repository->get_all_image_sizes_with_default();
-				foreach ( $sizes as $size ) {
-					$key = Utils::add_plugin_prefix( $size );
-					$blur = $this->image_blur_repository->get( $post->ID, $size );
-					if ( $blur ) {
-						$form_fields[ $key ] = array(
-							'input' => 'text',
-							'value' => esc_url( "data:$mime;base64,$blur", array( 'data' ) ),
-							'label' => $size,
-						);
-					}
+			$sizes = $this->image_repository->get_all_image_sizes_with_default();
+			foreach ( $sizes as $size ) {
+				$key = Utils::add_plugin_prefix( $size );
+				$blur = $this->image_blur_repository->get( $post->ID, $size );
+				if ( $blur ) {
+					$form_fields[ $key ] = array(
+						'input' => 'text',
+						'value' => esc_url( "data:$mime;base64,$blur", array( 'data' ) ),
+						'label' => $size,
+					);
 				}
 			}
 		}
