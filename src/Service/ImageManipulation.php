@@ -1,5 +1,7 @@
 <?php
+
 namespace ImageBlur\Service;
+
 
 /**
  * Stop execution if not in Wordpress environment
@@ -15,8 +17,8 @@ class ImageManipulation {
 	 * Processing function for images. We need mime type so we can process pngs with it's own method.
 	 *
 	 * @param string  $mime - mime type of the image object.
-	 * @param GdImage $image - Image object.
-	 * @return GdImage - modified Image object.
+	 * @param resource $image - Image object.
+	 * @return resource - modified Image object.
 	 */
 	public function process_image( string $mime, $image ) {
 		return $mime === 'image/png'
@@ -27,8 +29,8 @@ class ImageManipulation {
 	/**
 	 * Downscales passed in image while keeping aspect ratio to defined width and returns new downscaled image.
 	 *
-	 * @param GdImage $image - Image object.
-	 * @return GdImage - Downscaled image object.
+	 * @param resource $image - Image object.
+	 * @return resource - Downscaled image object.
 	 */
 	public function downscale( $image ) {
 		$width = apply_filters( 'image-blur-modify-width', 8 );
@@ -39,7 +41,7 @@ class ImageManipulation {
 	 * Applies gaussian blur to passed in image.
 	 * Blur's strength is applied using same function over and over again to the image object.
 	 *
-	 * @param GdImage $image - Image object.
+	 * @param resource $image - Image object.
 	 */
 	public function gaussian_blur( $image ): void {
 		$strength = apply_filters( 'image-blur-modify-gaussian-blur-strength', 1 );
@@ -51,8 +53,8 @@ class ImageManipulation {
 	/**
 	 * A generic process function for images.
 	 *
-	 * @param GDImage $image - image object that needs processing.
-	 * @return GDImage $downscaled - downscaled and blurred image.
+	 * @param resource $image - image object that needs processing.
+	 * @return resource $downscaled - downscaled and blurred image.
 	 */
 	public function generic_process( $image ) {
 		$downscaled = $this->downscale( $image );
@@ -63,8 +65,8 @@ class ImageManipulation {
 	/**
 	 * To keep transparency in png images, we need to process them using this function.
 	 *
-	 * @param GdImage $image - Image object.
-	 * @return GdImage - modified Image object.
+	 * @param resource $image - Image object.
+	 * @return resource - modified Image object.
 	 */
 	public function process_png( $image ) {
 		$width = imagesx( $image );

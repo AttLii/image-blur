@@ -65,9 +65,9 @@ class Image {
 	 * Returns mime type for passed in attachment id.
 	 *
 	 * @param int $id - attachment's id.
-	 * @return string - attachment's mime type.
+	 * @return string|bool - attachment's mime type.
 	 */
-	public function get_mime_type( int $id ): string {
+	public function get_mime_type( int $id ) {
 		return get_post_mime_type( $id );
 	}
 }
