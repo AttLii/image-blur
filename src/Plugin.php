@@ -76,10 +76,8 @@ class Plugin {
 			foreach ( $sizes as $size ) {
 				$key = Utils::add_plugin_prefix( $size );
 
-				$value = "";
 				$blur = $this->image_blur_repository->get( $post->ID, $size );
 				if ( $blur ) {
-
 					$form_fields[ $key ] = array(
 						'input' => 'text',
 						'value' => esc_url( "data:$mime;base64,$blur", array( "data" ) ),
