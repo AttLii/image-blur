@@ -79,14 +79,13 @@ class Plugin {
 				$value = "";
 				$blur = $this->image_blur_repository->get( $post->ID, $size );
 				if ( $blur ) {
-					$value = "data:$mime;base64,$blur";
-				}
 
-				$form_fields[ $key ] = array(
-					'input' => 'text',
-					'value' => esc_url( $value, array( "data" ) ),
-					'label' => $size,
-				);
+					$form_fields[ $key ] = array(
+						'input' => 'text',
+						'value' => esc_url( "data:$mime;base64,$blur", array( "data" ) ),
+						'label' => $size,
+					);
+				}
 			}
 		}
 		return $form_fields;
