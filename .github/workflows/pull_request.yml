@@ -20,3 +20,12 @@ jobs:
           php_version: 7.4
           version: 2
       - run: composer lint
+  psalm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: php-actions/composer@v6
+        with:
+          php_version: 7.4
+          version: 2
+      - run: composer psalm
