@@ -17,7 +17,7 @@ After Wolt showcased their [Blurhash](https://blurha.sh/) technique, I wanted to
 - Install and activate this plugin in your environment
   - The plugin should generate blurs for each image on the activation.
 - Check an image's details in your media library. It should have listing of all generated blurs.
-- To get a blur to a template, use `get_post_meta()`. Check examples in [plugin's repository](https://github.com/AttLii/image-blur)
+- To get a blur to a template, use `get_post_meta()`. Check example theme in [plugin's repository](https://github.com/AttLii/image-blur)
 
 == Frequently Asked Questions ==
 
