@@ -8,5 +8,8 @@
     "WP_DEBUG_LOG": true,
     "WP_DEBUG": true,
     "SCRIPT_DEBUG": true
-	}
+	},
+  "mappings": {
+    "wp-content/themes/example-theme": "./example-theme"
+  }
 }
