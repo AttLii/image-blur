@@ -80,7 +80,7 @@ class Plugin {
 				if ( $blur ) {
 					$form_fields[ $key ] = array(
 						'input' => 'text',
-						'value' => esc_url( "data:$mime;base64,$blur", array( "data" ) ),
+						'value' => esc_url( "data:$mime;base64,$blur", array( 'data' ) ),
 						'label' => $size,
 					);
 				}
