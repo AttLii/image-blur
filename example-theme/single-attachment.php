@@ -1,13 +1,15 @@
 <?php
 /**
- * Advanced example for rendering image blur for an image attachment, while main image is loading.
+ * This is a template to render a single attachment with image blur plugin.
  */
 
 // existing image attachment's id.
-$attachment_id = 17;
+$attachment_id = get_the_ID();
 
+// prefix or namespace used by image blur plugin to store data to post meta table.
 $prefix = 'image_blur_';
 
+// needed image size.
 $image_size = 'full';
 
 $key = $prefix . $image_size;
@@ -17,22 +19,22 @@ $mime = get_post_mime_type( $attachment_id );
 // this value can be null in various cases, do null checking if necessary.
 $blur_data = get_post_meta( $attachment_id, $key, true );
 
-list($url, $width, $height) = wp_get_attachment_image_src( $attachment_id, $image_size );
+list( $url, $width, $height ) = wp_get_attachment_image_src( $attachment_id, $image_size );
 
-$src = "data:$mime;base64,$blur_data";
+$blur_src = "data:$mime;base64,$blur_data";
 
 ?>
 <div class="image-wrapper">
   <img
 	class="image-blur"
 	role="presentation"
-	src="<?php echo $blur_data; ?>"
+	src="<?php echo esc_url( $blur_src, array( 'data' ) ); ?>"
   />
   <img
 	class="image"
-	width="<?php echo $width; ?>"
-	height="<?php echo $height; ?>"
-	src="<?php echo $url; ?>"
+	width="<?php echo esc_attr( $width ); ?>"
+	height="<?php echo esc_attr( $height ); ?>"
+	src="<?php echo esc_url( $url ); ?>"
   />
 </div>
 
@@ -48,7 +50,7 @@ $src = "data:$mime;base64,$blur_data";
 	left: 0;
 	width: 100%;
 	height: 100%;
-	transition: 0.4s opacity linear 0.1s;
+	transition: 0.4s opacity linear 0.4s;
 	opacity: 1;
   }
 

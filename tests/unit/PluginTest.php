@@ -35,10 +35,14 @@ final class PluginTest extends WP_Mock\Tools\TestCase {
 	 * @preserveGlobalState disabled
 	 */
 	public function testRenderBlurDataInEditViewMethodWithBadAttachment() {
-		Mockery::mock( 'overload:ImageBlur\Repository\Image' )
-			->shouldReceive( 'is_image' )
+		$mock_image_repository = Mockery::mock( 'overload:ImageBlur\Repository\Image' );
+
+		$mock_image_repository->shouldReceive( 'is_image' )
 			->with( 404 )
 			->andReturn( false );
+
+		$mock_image_repository->shouldReceive( 'get_mime_type' )
+			->andReturn( "doesnt/matter" );
 
 		$mock_post = new WP_Post();
 		$mock_post->ID = 404;
@@ -63,6 +67,9 @@ final class PluginTest extends WP_Mock\Tools\TestCase {
 
 		$image_repository_mock->shouldReceive( 'get_all_image_sizes_with_default' )
 			->andReturn( array() );
+
+		$image_repository_mock->shouldReceive( 'get_mime_type' )
+				->andReturn( "doesnt/matter" );
 
 		$mock_post = new WP_Post();
 		$mock_post->ID = 1;
@@ -89,9 +96,14 @@ final class PluginTest extends WP_Mock\Tools\TestCase {
 	 */
 	public function testRenderBlurDataInEditViewMethod() {
 		$image_repository_mock = Mockery::mock( 'overload:ImageBlur\Repository\Image' );
+
 		$image_repository_mock->shouldReceive( 'is_image' )
 			->with( 1 )
 			->andReturn( true );
+
+		$image_repository_mock->shouldReceive( 'get_mime_type' )
+			->with( 1 )
+			->andReturn( "mock-mime/type" );
 
 		$image_repository_mock->shouldReceive( 'get_all_image_sizes_with_default' )
 			->andReturn(
@@ -99,12 +111,13 @@ final class PluginTest extends WP_Mock\Tools\TestCase {
 					'thumbnail',
 					'medium',
 					'large',
+					'ungenerated-blur-size'
 				)
 			);
 
 		Mockery::mock( 'overload:ImageBlur\Repository\ImageBlur' )
 			->shouldReceive( 'get' )
-			->times( 3 )
+			->times( 4 )
 			->withArgs(
 				function ( $id, $size ) {
 					if ( $id !== 1 ) {
@@ -117,6 +130,7 @@ final class PluginTest extends WP_Mock\Tools\TestCase {
 							'thumbnail',
 							'medium',
 							'large',
+							'ungenerated-blur-size'
 						)
 					);
 
@@ -124,7 +138,11 @@ final class PluginTest extends WP_Mock\Tools\TestCase {
 			)
 			->andReturnUsing(
 				function( $id, $size ) {
-					return "blur for id ${id} with size ${size}";
+					if ( $size === 'ungenerated-blur-size' ) {
+						return null;
+					} else {
+						return "blur-for-id-${id}-with-size-${size}";
+					}
 				}
 			);
 
@@ -152,17 +170,17 @@ final class PluginTest extends WP_Mock\Tools\TestCase {
 				),
 				'image_blur_thumbnail' => array(
 					'input' => 'text',
-					'value' => 'blur for id 1 with size thumbnail',
+					'value' => 'data:mock-mime/type;base64,blur-for-id-1-with-size-thumbnail',
 					'label' => 'thumbnail',
 				),
 				'image_blur_medium' => array(
 					'input' => 'text',
-					'value' => 'blur for id 1 with size medium',
+					'value' => 'data:mock-mime/type;base64,blur-for-id-1-with-size-medium',
 					'label' => 'medium',
 				),
 				'image_blur_large' => array(
 					'input' => 'text',
-					'value' => 'blur for id 1 with size large',
+					'value' => 'data:mock-mime/type;base64,blur-for-id-1-with-size-large',
 					'label' => 'large',
 				),
 			)
