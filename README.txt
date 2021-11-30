@@ -3,7 +3,7 @@ Contributors: attlii
 Tags: media, image, blur
 Requires at least: 5.6
 Tested up to: 5.8.2
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -53,3 +53,11 @@ function modify_gaussian_blur_strength( int $strength ): int {
 }
 add_filter("image-blur-modify-gaussian-blur-strength", "modify_gaussian_blur_strength");
 `
+
+== Changelog ==
+
+= 1.0.0 (2021-11-30): =
+- Initial release
+
+= 1.0.1 (2021-11-30): =
+- Remove development related files from plugin directory
