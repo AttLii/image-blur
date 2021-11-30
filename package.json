@@ -1,8 +1,0 @@
-{
-  "name": "image-blur",
-  "version": "1.0.1",
-  "license": "GPL-2.0-or-later",
-  "devDependencies": {
-    "@wordpress/env": "^4.1.3"
-  }
-}
