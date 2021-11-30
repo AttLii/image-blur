@@ -1,6 +1,6 @@
 === Image Blur ===
 Contributors: attlii
-Tags: media, image, blur
+Tags: media, image, blur, base64, library
 Requires at least: 5.6
 Tested up to: 5.8.2
 Stable tag: 1.0.1
