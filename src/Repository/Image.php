@@ -70,4 +70,15 @@ class Image {
 	public function get_mime_type( int $id ) {
 		return get_post_mime_type( $id );
 	}
+
+	/**
+	 * Returns remote url for the attachment's id and size
+	 *
+	 * @param int    $id - attachment's id.
+	 * @param string $size - slug of the image size.
+	 * @return null|string - attachment's mime type.
+	 */
+	public function get_url_for_size( int $id, string $size ): ?string {
+		return wp_get_attachment_image_url( $id, $size ) ?: null;
+	}
 }
