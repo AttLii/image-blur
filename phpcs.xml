@@ -13,6 +13,7 @@
 		<exclude name="Squiz.Commenting.FileComment.MissingPackageTag" />
 		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase" />
 		<exclude name="WordPress.Files.FileName.InvalidClassFileName" />
+		<exclude name="WordPress.PHP.DisallowShortTernary.Found" />
 		<exclude name="WordPress.PHP.YodaConditions.NotYoda" />
 	</rule>
 </ruleset>
