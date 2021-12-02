@@ -107,4 +107,24 @@ final class ImageTest extends WP_Mock\Tools\TestCase {
 		$result = $this->repo->get_mime_type( 1 );
 		$this->assertEquals( $result, 'image/png' );
 	}
+
+	public function testGetUrlForSizeMethod() {
+		WP_Mock::userFunction( "wp_get_attachment_image_url", array(
+			"times" => 1,
+			"with" => array( 1, "full" ),
+			"return" => "https://cdn.client.com/wp-content/uploads/2021/12/merry-xmas.png"
+		) );
+
+		WP_Mock::userFunction( "wp_get_attachment_image_url", array(
+			"times" => 1,
+			"with" => array( 404, "weird-size-that-doesnt-exist" ),
+			"return" => false
+		) );
+
+		$result = $this->repo->get_url_for_size( 1, 'full' );
+		$this->assertEquals( $result, "https://cdn.client.com/wp-content/uploads/2021/12/merry-xmas.png" );
+
+		$result = $this->repo->get_url_for_size( 404, 'weird-size-that-doesnt-exist' );
+		$this->assertNull( $result );
+	}
 }

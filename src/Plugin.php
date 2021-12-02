@@ -104,15 +104,25 @@ class Plugin {
 					list( 'basedir' => $basedir ) = wp_upload_dir();
 					$sizes = AttachmentParser::parse_sizes_from_metadata( $metadata );
 					foreach ( $sizes as $size => $path ) {
-						$image = $create( "$basedir/$path" );
-						$image = $this->image_manipulation_service->process_image( $mime, $image );
 
-						ob_start();
-						$output( $image );
-						$contents = ob_get_clean();
+						$image = @$create( "$basedir/$path" );
+						if ( ! $image ) {
+							$url = $this->image_repository->get_url_for_size( $id, $size );
+							if ( $url ) {
+								$image = @$create( $url );
+							}
+						}
 
-						$data = base64_encode( $contents );
-						$this->image_blur_repository->set( $id, $size, $data );
+						if ( $image ) {
+							$image = $this->image_manipulation_service->process_image( $mime, $image );
+
+							ob_start();
+							$output( $image );
+							$contents = ob_get_clean();
+
+							$data = base64_encode( $contents );
+							$this->image_blur_repository->set( $id, $size, $data );
+						}
 					}
 				}
 			}
