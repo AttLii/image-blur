@@ -2,7 +2,8 @@
   "port": 1023,
   "testsPort": 1024,
   "plugins": [
-    "."
+    ".",
+    "https://downloads.wordpress.org/plugin/wp-graphql.1.6.11.zip"
   ],
 	"config": {
     "WP_DEBUG_LOG": true,
