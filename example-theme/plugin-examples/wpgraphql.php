@@ -1,5 +1,19 @@
 <?php
 
+// example usage
+// {
+//   mediaItems {
+//    edges {
+//      cursor
+//      node {
+//        sourceUrl
+//        fullImageBlur: imageBlur(size: "full")
+//        customSizeImageBlur: imageBlur(size: "my-custom-size")
+//      }
+//    }
+//  }
+// }
+
 /**
  * This example shows how to add image blur data to wpgraphql media items.
  */
