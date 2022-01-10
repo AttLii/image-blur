@@ -24,7 +24,7 @@ function add_image_blur_to_mediaitem() {
     array(
       'type' => 'String',
       'args' => array( 
-          'size' => array(
+        'size' => array(
           'type' => 'String'
         ),
       ),
