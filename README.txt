@@ -2,7 +2,7 @@
 Contributors: attlii
 Tags: media, image, blur, base64, library
 Requires at least: 5.6
-Tested up to: 5.8.2
+Tested up to: 5.9
 Stable tag: 1.2.0
 Requires PHP: 7.4
 License: GPLv2 or later
