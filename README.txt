@@ -2,8 +2,8 @@
 Contributors: attlii
 Tags: media, image, blur, base64, library
 Requires at least: 5.6
-Tested up to: 5.8.2
-Stable tag: 1.2.0
+Tested up to: 5.9
+Stable tag: 1.2.1
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -67,3 +67,6 @@ add_filter("image-blur-modify-gaussian-blur-strength", "modify_gaussian_blur_str
 
 = 1.2.0 (2022-01-10): =
 - Add example script to support WPGraphQL plugin
+
+= 1.2.1 (2022-01-28): =
+- update tested up to version to 5.9
