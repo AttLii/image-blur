@@ -13,7 +13,9 @@
  */
 
 
-require_once 'vendor/autoload.php';
+if ( ! class_exists( '\\ImageBlur\\Plugin' ) ) {
+  require_once dirname( __FILE__ ) . '/vendor/autoload.php';
+}
 
 /**
  * Stop execution if not in Wordpress environment
