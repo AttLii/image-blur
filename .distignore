@@ -1,6 +1,6 @@
 /.git
 /.github
-/example-theme
+/env
 /node_modules
 /tests
 .distignore
