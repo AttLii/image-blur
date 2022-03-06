@@ -26,5 +26,8 @@
 		"lint": "./vendor/bin/phpcs",
 		"lint:fix": "./vendor/bin/phpcbf",
 		"psalm": "./vendor/bin/psalm"
+	},
+	"require": {
+		"composer/installers": "~1.0"
 	}
 }
