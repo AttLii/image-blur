@@ -28,6 +28,6 @@
 		"psalm": "./vendor/bin/psalm"
 	},
 	"require": {
-		"composer/installers": "~1.0"
+		"composer/installers": "^2.0"
 	}
 }
