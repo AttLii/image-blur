@@ -25,23 +25,25 @@ final class ImageManipulationTest extends WP_Mock\Tools\TestCase {
 	}
 
 	public function testProcessImageMethodToCallTransparentProcess() {
+		$mock_image = imagecreate(10, 10);
 		$service_mock = Mockery::mock('ImageBlur\Service\ImageManipulation[process_png]');
-		$service_mock->shouldReceive("process_png")->andReturn("foo");
+		$service_mock->shouldReceive("process_png")->andReturn($mock_image);
 
 		$image = imagecreatefrompng("./tests/assets/gaussian-blur-unprocessed.png");
 
 		$result = $service_mock->process_image("image/png", $image);
-		$this->assertEquals($result, "foo");
+		$this->assertEquals($result, $mock_image);
 	}
 
 	public function testProcessImageMethodToCallGenericProcess() {
 		$service_mock = Mockery::mock('ImageBlur\Service\ImageManipulation[generic_process]');
-		$service_mock->shouldReceive("generic_process")->andReturn("foo");
+		$mock_image = imagecreate(10, 10);
+		$service_mock->shouldReceive("generic_process")->andReturn($mock_image);
 
 		$image = imagecreatefromjpeg("./tests/assets/gaussian-blur-unprocessed.jpeg");
 
 		$result = $service_mock->process_image("image/jpeg", $image);
-		$this->assertEquals($result, "foo");
+		$this->assertEquals($result, $mock_image);
 	}
 
 	public function testDownscaleMethod() {

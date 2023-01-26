@@ -2,6 +2,8 @@
 
 namespace ImageBlur\Service;
 
+use \GdImage;
+
 /**
  * Stop execution if not in Wordpress environment
  */
@@ -15,11 +17,11 @@ class ImageManipulation {
 	/**
 	 * Processing function for images. We need mime type so we can process pngs with it's own method.
 	 *
-	 * @param string   $mime - mime type of the image object.
-	 * @param resource $image - Image object.
-	 * @return resource - modified Image object.
+	 * @param string  $mime - mime type of the image object.
+	 * @param GdImage $image - Image object.
+	 * @return GdImage - modified Image object.
 	 */
-	public function process_image( string $mime, $image ) {
+	public function process_image( string $mime, GdImage $image ): GdImage {
 		return $mime === 'image/png'
 			? $this->process_png( $image )
 			: $this->generic_process( $image );
@@ -28,10 +30,10 @@ class ImageManipulation {
 	/**
 	 * Downscales passed in image while keeping aspect ratio to defined width and returns new downscaled image.
 	 *
-	 * @param resource $image - Image object.
-	 * @return resource - Downscaled image object.
+	 * @param GdImage $image - Image object.
+	 * @return GdImage - Downscaled image object.
 	 */
-	public function downscale( $image ) {
+	public function downscale( GdImage $image ): GdImage {
 		$width = apply_filters( 'image-blur-modify-width', 8 );
 		return imagescale( $image, $width );
 	}
@@ -40,9 +42,9 @@ class ImageManipulation {
 	 * Applies gaussian blur to passed in image.
 	 * Blur's strength is applied using same function over and over again to the image object.
 	 *
-	 * @param resource $image - Image object.
+	 * @param GdImage $image - Image object.
 	 */
-	public function gaussian_blur( $image ): void {
+	public function gaussian_blur( GdImage $image ): void {
 		$strength = apply_filters( 'image-blur-modify-gaussian-blur-strength', 1 );
 		for ( $i = 1; $i <= $strength; $i++ ) {
 			imagefilter( $image, IMG_FILTER_GAUSSIAN_BLUR );
@@ -52,10 +54,10 @@ class ImageManipulation {
 	/**
 	 * A generic process function for images.
 	 *
-	 * @param resource $image - image object that needs processing.
-	 * @return resource $downscaled - downscaled and blurred image.
+	 * @param GdImage $image - image object that needs processing.
+	 * @return GdImage $downscaled - downscaled and blurred image.
 	 */
-	public function generic_process( $image ) {
+	public function generic_process( GdImage $image ): GdImage {
 		$downscaled = $this->downscale( $image );
 		$this->gaussian_blur( $downscaled );
 		return $downscaled;
@@ -64,10 +66,10 @@ class ImageManipulation {
 	/**
 	 * To keep transparency in png images, we need to process them using this function.
 	 *
-	 * @param resource $image - Image object.
-	 * @return resource - modified Image object.
+	 * @param GdImage $image - Image object.
+	 * @return GdImage - modified Image object.
 	 */
-	public function process_png( $image ) {
+	public function process_png( GdImage $image ): GdImage {
 		$width = imagesx( $image );
 		$height = imagesy( $image );
 
