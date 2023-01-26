@@ -1,4 +1,5 @@
 {
+  "phpVersion": "8.0",
   "port": 1023,
   "testsPort": 1024,
   "plugins": [
