@@ -28,13 +28,13 @@ $blur_src = "data:$mime;base64,$blur_data";
   <img
 		class="image-blur"
 		role="presentation"
-		src="<?= esc_url( $blur_src, array( 'data' ) ); ?>"
+		src="<?php echo esc_url( $blur_src, array( 'data' ) ); ?>"
   />
   <img
 		class="image"
-		width="<?= esc_attr( $width ); ?>"
-		height="<?= esc_attr( $height ); ?>"
-		src="<?= esc_url( $url ); ?>"
+		width="<?php echo esc_attr( $width ); ?>"
+		height="<?php echo esc_attr( $height ); ?>"
+		src="<?php echo esc_url( $url ); ?>"
   />
 </div>
 
