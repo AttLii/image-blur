@@ -68,20 +68,24 @@ class Plugin {
 	 * @return array $form_fields - modified form_fields parameter.
 	 */
 	public function render_blur_to_edit_view( $form_fields, $post ) {
-		if ( $this->image_repository->is_image( $post->ID ) ) {
-			$mime = $this->image_repository->get_mime_type( $post->ID );
-			$sizes = $this->image_repository->get_all_image_sizes_with_default();
-			foreach ( $sizes as $size ) {
-				$key = Utils::add_plugin_prefix( $size );
-				$blur = $this->image_blur_repository->get( $post->ID, $size );
-				if ( $blur ) {
-					$form_fields[ $key ] = array(
-						'input' => 'text',
-						'value' => esc_url( "data:$mime;base64,$blur", array( 'data' ) ),
-						'label' => $size,
-					);
-				}
+		if ( ! $this->image_repository->is_image( $post->ID ) ) {
+			return $form_fields;
+		}
+
+		$mime = $this->image_repository->get_mime_type( $post->ID );
+		$sizes = $this->image_repository->get_all_image_sizes_with_default();
+		foreach ( $sizes as $size ) {
+			$key = Utils::add_plugin_prefix( $size );
+			$blur = $this->image_blur_repository->get( $post->ID, $size );
+			if ( ! $blur ) {
+				continue;
 			}
+
+			$form_fields[ $key ] = array(
+				'input' => 'text',
+				'value' => esc_url( "data:$mime;base64,$blur", array( 'data' ) ),
+				'label' => $size,
+			);
 		}
 		return $form_fields;
 	}
@@ -94,38 +98,47 @@ class Plugin {
 	 * @param int   $id - id of the attachment.
 	 * @return array $metadata - passed in metadata value.
 	 */
-	public function generate_blur_for_attachment( $metadata, $id ) {
-		if ( $this->image_repository->is_image( $id ) ) {
-			$this->image_blur_repository->clear( $id );
-			$mime = $this->image_repository->get_mime_type( $id );
-			if ( is_string( $mime ) ) {
-				list( $create, $output ) = $this->choose_funcs_for_mime_type( $mime );
-				if ( function_exists( $create ) && function_exists( $output ) ) {
-					list( 'basedir' => $basedir ) = wp_upload_dir();
-					$sizes = AttachmentParser::parse_sizes_from_metadata( $metadata );
-					foreach ( $sizes as $size => $path ) {
+	public function generate_blur_for_attachment( array $metadata, int $id ) {
+		if ( ! $this->image_repository->is_image( $id ) ) {
+			return $metadata;
+		}
 
-						$image = @$create( "$basedir/$path" );
-						if ( ! $image ) {
-							$url = $this->image_repository->get_url_for_size( $id, $size );
-							if ( $url ) {
-								$image = @$create( $url );
-							}
-						}
+		// clear image blurs just in case.
+		$this->image_blur_repository->clear( $id );
+		$mime = $this->image_repository->get_mime_type( $id );
+		if ( ! is_string( $mime ) ) {
+			return $metadata;
+		}
 
-						if ( $image ) {
-							$image = $this->image_manipulation_service->process_image( $mime, $image );
+		list( $create, $output ) = $this->choose_funcs_for_mime_type( $mime );
+		if ( ! function_exists( $create ) || ! function_exists( $output ) ) {
+			return $metadata;
+		}
 
-							ob_start();
-							$output( $image );
-							$contents = ob_get_clean();
+		list( 'basedir' => $basedir ) = wp_upload_dir();
+		$sizes = AttachmentParser::parse_sizes_from_metadata( $metadata );
+		foreach ( $sizes as $size => $path ) {
 
-							$data = base64_encode( $contents );
-							$this->image_blur_repository->set( $id, $size, $data );
-						}
-					}
+			$image = @$create( "$basedir/$path" );
+			if ( ! $image ) {
+				$url = $this->image_repository->get_url_for_size( $id, $size );
+				if ( $url ) {
+					$image = @$create( $url );
 				}
 			}
+
+			if ( ! $image ) {
+				continue;
+			}
+
+			$image = $this->image_manipulation_service->process_image( $mime, $image );
+
+			ob_start();
+			$output( $image );
+			$contents = ob_get_clean();
+
+			$data = base64_encode( $contents );
+			$this->image_blur_repository->set( $id, $size, $data );
 		}
 
 		return $metadata;
