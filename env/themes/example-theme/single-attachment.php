@@ -26,36 +26,36 @@ $blur_src = "data:$mime;base64,$blur_data";
 ?>
 <div class="image-wrapper">
   <img
-	class="image-blur"
-	role="presentation"
-	src="<?php echo esc_url( $blur_src, array( 'data' ) ); ?>"
+		class="image-blur"
+		role="presentation"
+		src="<?php echo esc_url( $blur_src, array( 'data' ) ); ?>"
   />
   <img
-	class="image"
-	width="<?php echo esc_attr( $width ); ?>"
-	height="<?php echo esc_attr( $height ); ?>"
-	src="<?php echo esc_url( $url ); ?>"
+		class="image"
+		width="<?php echo esc_attr( $width ); ?>"
+		height="<?php echo esc_attr( $height ); ?>"
+		src="<?php echo esc_url( $url ); ?>"
   />
 </div>
 
 <style>
   .image-wrapper {
-	position: relative;
-	display: inline-block;
+		position: relative;
+		display: inline-block;
   }
 
   .image-blur {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	transition: 0.4s opacity linear 0.4s;
-	opacity: 1;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		transition: 0.4s opacity linear 0.4s;
+		opacity: 1;
   }
 
   .js-hide {
-	opacity: 0;
+		opacity: 0;
   }
 </style>
 
