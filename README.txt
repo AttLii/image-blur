@@ -1,10 +1,10 @@
 === Image Blur ===
 Contributors: attlii
 Tags: media, image, blur, base64, library
-Requires at least: 5.6
-Tested up to: 5.9
-Stable tag: 1.2.2
-Requires PHP: 7.4
+Requires at least: 6.1.1
+Tested up to: 6.1.1
+Stable tag: 1.2.3
+Requires PHP: 8.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -73,3 +73,6 @@ add_filter("image-blur-modify-gaussian-blur-strength", "modify_gaussian_blur_str
 
 = 1.2.2 (2022-02-28): =
 - Fix the issue when the plugin is accidentally included to environment through mu-plugins and plugins.
+
+= 1.2.3 (2023-01-26): =
+- Test and confirm that plugin works with PHP 8.0 and WP 6.1.1
