@@ -2,7 +2,7 @@
 
 namespace ImageBlur\Service;
 
-use \GdImage;
+use GdImage;
 
 /**
  * Stop execution if not in Wordpress environment

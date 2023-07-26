@@ -24,4 +24,3 @@ if ( ! class_exists( 'ImageBlur\Plugin' ) ) {
 	register_deactivation_hook( __FILE__, array( $image_blur_plugin, 'deactivate' ) );
 	register_activation_hook( __FILE__, array( $image_blur_plugin, 'activate' ) );
 }
-
