@@ -6,7 +6,7 @@
  * Version:           2.0.2
  * Requires at least: 6.1.1
  * Tested up to:      6.4.2
- * Requires PHP:      8.3
+ * Requires PHP:      8.2
  * Author:            Atte Liimatainen
  * Author URI:        https://github.com/AttLii
  * License:           GPL v2 or later

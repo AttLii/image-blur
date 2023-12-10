@@ -10,7 +10,7 @@ jobs:
       - uses: actions/checkout@master
       - uses: php-actions/composer@v6
         with:
-          php_version: 8.3
+          php_version: 8.2
           version: 2
           dev: no
       - name: WordPress Plugin Deploy
