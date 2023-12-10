@@ -1,13 +1,4 @@
 === Image Blur ===
-Contributors: attlii
-Tags: media, image, blur, base64, library
-Requires at least: 6.1.1
-Tested up to: 6.1.1
-Stable tag: 2.0.0
-Requires PHP: 8.0
-License: GPLv2 or later
-License URI: https://www.gnu.org/licenses/gpl-2.0.html
-
 Generates base64 encoded, downscaled and blurred versions of media library's images, which can be used f.e. as a placeholder.
 
 == Inspiration ==

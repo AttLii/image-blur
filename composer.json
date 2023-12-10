@@ -6,6 +6,9 @@
 			"ImageBlur\\": "src/"
 		}
 	},
+	"platform":{
+		"php":"8.2"
+	},
 	"authors": [
 		{
 			"name": "Atte Liimatainen",
