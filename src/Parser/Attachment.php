@@ -4,6 +4,11 @@ namespace ImageBlur\Parser;
 use ImageBlur\Constants;
 
 /**
+ * Stop execution if not in Wordpress environment
+ */
+defined( 'WPINC' ) || die;
+
+/**
  * A class for parsing attachment specific data
  */
 class Attachment {

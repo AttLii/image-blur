@@ -1,5 +1,3 @@
 <?php
-require_once realpath( dirname( __FILE__ ) . '/../vendor/autoload.php' );
-require_once 'mocks/WP_Post.php';
-define( 'UNIT_TESTING', true );
-WP_Mock::bootstrap();
+define('WPINC', true);
+define('SRC_FOLDER', dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . "src" . DIRECTORY_SEPARATOR);
