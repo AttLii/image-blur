@@ -27,7 +27,8 @@
 			"pestphp/pest-plugin": true
 		}
 	},
-	"require": {
-		"pestphp/pest": "^2.28"
+	"require-dev": {
+		"pestphp/pest": "^2.28",
+		"10up/wp_mock": "^0.4.2"
 	}
 }
