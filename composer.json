@@ -16,7 +16,7 @@
 		}
 	],
 	"scripts": {
-		"test": "./vendor/bin/pest ./tests",
+		"test": "./vendor/bin/pest",
 		"lint": "./vendor/bin/phpcs",
 		"lint:fix": "./vendor/bin/phpcbf",
 		"psalm": "./vendor/bin/psalm"
