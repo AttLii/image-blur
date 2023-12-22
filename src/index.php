@@ -58,13 +58,13 @@ function image_blur_downscale_png(GdImage $image): GdImage
     return $new_image;
 }
 
-function image_blur_is_unprosessable_image(string $mimetype, string $image_url): bool
+function image_blur_is_unprosessable_image(string $mimetype, string $image_path): bool
 {
     if ($mimetype !== "webp") {
         return false;
     } else {
         // animated webp isn't supported 
-        $contents = file_get_contents($image_url);
+        $contents = file_get_contents($image_path);
         return strpos($contents, 'ANMF') !== false || strpos($contents, "ANIM") !== false;
     }
 }
@@ -128,7 +128,7 @@ function image_blur_generate_blur_for_attachment(array $metadata, int $id): arra
     return $metadata;
 }
 
-function image_blur_render_blur_to_edit_view($form_fields, $post)
+function image_blur_render_blur_to_edit_view(array $form_fields, WP_Post $post): array
 {
     if (!wp_attachment_is_image($post->ID)) {
         return $form_fields;
