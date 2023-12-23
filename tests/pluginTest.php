@@ -5,8 +5,20 @@ test('activation and deactivation hook is called', function() {
     global $IMAGE_BLUR_PLUGIN_INIT;
     unset($IMAGE_BLUR_PLUGIN_INIT);
 
-    WP_Mock::userFunction('register_activation_hook', ['times' => 1]);
-    WP_Mock::userFunction('register_deactivation_hook', ['times' => 1]);
+    WP_Mock::userFunction('register_activation_hook', [
+        'times' => 1,
+        'args'  => [
+            WP_Mock\Functions::type('string'),
+            WP_Mock\Functions::type('callable'),
+        ],
+    ]);
+    WP_Mock::userFunction('register_deactivation_hook', [
+        'times' => 1,
+        'args'  => [
+            WP_Mock\Functions::type('string'),
+            WP_Mock\Functions::type('callable'),
+        ],
+    ]);
 
     require dirname(__FILE__) . "/../image-blur.php";
     
