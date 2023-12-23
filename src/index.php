@@ -155,8 +155,8 @@ function image_blur_render_blur_to_edit_view(array $form_fields, WP_Post $post):
     return $form_fields;
 }
 
-function image_blur_activate(): void {
-    $attachment_ids = get_posts(
+function image_blur_get_all_image_ids () {
+    return get_posts(
         array(
             'post_type'      => 'attachment',
             'post_mime_type' => 'image',
@@ -164,8 +164,10 @@ function image_blur_activate(): void {
             'fields'         => 'ids',
         )
     );
+}
 
-    foreach ( $attachment_ids as $id ) {
+function image_blur_activate(): void {
+    foreach ( image_blur_get_all_image_ids() as $id ) {
         $metadata = wp_get_attachment_metadata( $id );
         if (!$metadata) {
             continue;
@@ -174,6 +176,11 @@ function image_blur_activate(): void {
     }
 }
 
+function image_blur_deactivate(): void {
+    foreach ( image_blur_get_all_image_ids() as $id ) {
+        image_blur_clear_blurs($id);
+    }
+}
 
 add_filter('wp_generate_attachment_metadata', 'image_blur_generate_blur_for_attachment', 10, 2);
 add_filter('wp_update_attachment_metadata', 'image_blur_generate_blur_for_attachment', 10, 2);

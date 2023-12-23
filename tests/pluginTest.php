@@ -1,10 +1,12 @@
 <?php
 
-test('activation hook is called', function() {
+test('activation and deactivation hook is called', function() {
+    // this is defined in bootstrap-file, so we dont have to define it in every other test.
     global $IMAGE_BLUR_PLUGIN_INIT;
     unset($IMAGE_BLUR_PLUGIN_INIT);
 
     WP_Mock::userFunction('register_activation_hook', ['times' => 1]);
+    WP_Mock::userFunction('register_deactivation_hook', ['times' => 1]);
 
     require dirname(__FILE__) . "/../image-blur.php";
     
