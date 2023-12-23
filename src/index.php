@@ -155,6 +155,26 @@ function image_blur_render_blur_to_edit_view(array $form_fields, WP_Post $post):
     return $form_fields;
 }
 
+function image_blur_activate(): void {
+    $attachment_ids = get_posts(
+        array(
+            'post_type'      => 'attachment',
+            'post_mime_type' => 'image',
+            'posts_per_page' => -1,
+            'fields'         => 'ids',
+        )
+    );
+
+    foreach ( $attachment_ids as $id ) {
+        $metadata = wp_get_attachment_metadata( $id );
+        if (!$metadata) {
+            continue;
+        }
+        image_blur_generate_blur_for_attachment( $metadata, $id );
+    }
+}
+
+
 add_filter('wp_generate_attachment_metadata', 'image_blur_generate_blur_for_attachment', 10, 2);
 add_filter('wp_update_attachment_metadata', 'image_blur_generate_blur_for_attachment', 10, 2);
 add_filter('attachment_fields_to_edit', 'image_blur_render_blur_to_edit_view', 10, 2);

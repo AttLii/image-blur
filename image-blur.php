@@ -20,4 +20,5 @@ defined( 'WPINC' ) || die;
 
 if ( ! defined( 'IMAGE_BLUR_PLUGIN_INIT' ) ) {
 	include_once __DIR__ . '/src/index.php';
+	register_activation_hook( __FILE__, 'image_blur_activate' );
 }
