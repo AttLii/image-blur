@@ -1,7 +1,7 @@
 <?php
 
 test('resizes image to be 8px wide (default value)', function() {
-    $file = dirname(__FILE__) . "/../assets/funImage.jpg";
+    $file = realpath(dirname(__FILE__) . "/../assets/funImage.jpg");
     $gd_image = imagecreatefromjpeg($file);
 
     require SRC_FOLDER . "index.php";
