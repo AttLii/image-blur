@@ -10,4 +10,4 @@ jobs:
           php-version: "8.2"
           extensions: gd
       - run: composer install
-      - run: ./runTests.sh
+      - run: sudo ./runTests.sh
