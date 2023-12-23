@@ -10,6 +10,6 @@ jobs:
           php-version: "8.2"
           extensions: gd
       - run: composer install
-      - run: >
+      - run: |
           chmod +x runTests.sh
           ./runTests.sh
