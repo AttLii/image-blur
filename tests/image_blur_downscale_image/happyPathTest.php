@@ -1,8 +1,7 @@
 <?php
 
 test('resizes image to be 8px wide (default value)', function () {
-    $file = realpath(__DIR__ . "/../assets/funImage.jpg");
-    $gd_image = imagecreatefromjpeg($file);
+    $gd_image = imagecreatefromjpeg(TEST_ASSET_FOLDER . "/funImage.jpg");
 
     require SRC_FOLDER . "index.php";
     $downscaled = image_blur_downscale_image($gd_image);

@@ -1,8 +1,7 @@
 <?php
 
 test('resizes image to be wide as defined with the filter', function () {
-    $file = realpath(__DIR__ . "/../assets/funImage.png");
-    $gd_image = imagecreatefrompng($file);
+    $gd_image = imagecreatefrompng(TEST_ASSET_FOLDER . "/funImage.png");
 
     WP_Mock::onFilter('image-blur-modify-width')->with(8)->reply(100);
 

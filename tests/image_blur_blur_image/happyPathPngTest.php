@@ -1,8 +1,7 @@
 <?php
 
 test('applies expected blur to the image', function () {
-    $file = realpath(__DIR__ . "/../assets/funImage.png");
-    $gd_image = imagecreatefrompng($file);
+    $gd_image = imagecreatefrompng(TEST_ASSET_FOLDER . "/funImage.png");
 
     require SRC_FOLDER . "index.php";
     image_blur_blur_image($gd_image);
