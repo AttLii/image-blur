@@ -11,3 +11,12 @@ jobs:
           extensions: gd
       - run: composer install
       - run: ./runTests.sh
+  phpcs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+      - run: composer install
+      - run: composer lint
