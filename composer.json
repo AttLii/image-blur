@@ -29,6 +29,8 @@
 	},
 	"require-dev": {
 		"pestphp/pest": "^2.28",
-		"10up/wp_mock": "^0.4.2"
+		"10up/wp_mock": "^0.4.2",
+		"squizlabs/php_codesniffer": "^3.8",
+		"wp-coding-standards/wpcs": "^3.0"
 	}
 }
