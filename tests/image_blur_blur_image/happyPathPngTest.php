@@ -1,7 +1,7 @@
-<?php 
+<?php
 
-test('applies expected blur to the image', function() {
-    $file = realpath(dirname(__FILE__) . "/../assets/funImage.png");
+test('applies expected blur to the image', function () {
+    $file = realpath(__DIR__ . "/../assets/funImage.png");
     $gd_image = imagecreatefrompng($file);
 
     require SRC_FOLDER . "index.php";
