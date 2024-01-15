@@ -1,38 +1,38 @@
 {
-	"name": "attlii/image-blur",
-	"type": "wordpress-plugin",
-	"autoload": {
-		"psr-4": {
-			"ImageBlur\\": "src/"
-		}
-	},
-	"platform":{
-		"php":"8.2"
-	},
-	"authors": [
-		{
-			"name": "Atte Liimatainen",
-			"email": "atte.liimat@gmail.com"
-		}
-	],
-	"scripts": {
-		"test": "./vendor/bin/phpunit tests",
-		"lint": "./vendor/bin/phpcs",
-		"lint:fix": "./vendor/bin/phpcbf",
-		"psalm": "./vendor/bin/psalm"
-	},
-	"require-dev": {
-		"humanmade/psalm-plugin-wordpress": "^2.1",
-		"wp-coding-standards/wpcs": "dev-develop",
-		"squizlabs/php_codesniffer": "^3.7",
-		"phpunit/phpunit": "^9.6",
-		"10up/wp_mock": "^1.0",
-		"mockery/mockery": "^1.6",
-		"vimeo/psalm": "^4.30"
-	},
-	"config": {
-		"allow-plugins": {
-			"dealerdirect/phpcodesniffer-composer-installer": true
-		}
-	}
+  "name": "attlii/image-blur",
+  "type": "wordpress-plugin",
+  "autoload": {
+    "psr-4": {
+      "ImageBlur\\": "src/"
+    }
+  },
+  "platform": {
+    "php": "8.2"
+  },
+  "authors": [
+    {
+      "name": "Atte Liimatainen",
+      "email": "atte.liimat@gmail.com"
+    }
+  ],
+  "scripts": {
+    "test": "./vendor/bin/pest",
+    "lint": "./vendor/bin/phpcs",
+    "lint:fix": "./vendor/bin/phpcbf",
+    "psalm": "./vendor/bin/psalm"
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true,
+      "pestphp/pest-plugin": true
+    }
+  },
+  "require-dev": {
+    "pestphp/pest": "^2.28",
+    "10up/wp_mock": "^0.4.2",
+    "squizlabs/php_codesniffer": "^3.8",
+    "wp-coding-standards/wpcs": "^3.0",
+    "vimeo/psalm": "^5.19",
+    "humanmade/psalm-plugin-wordpress": "^3.0"
+  }
 }
