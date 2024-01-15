@@ -20,3 +20,12 @@ jobs:
           php-version: "8.2"
       - run: composer install
       - run: composer lint
+  psalm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+      - run: composer install
+      - run: composer psalm
