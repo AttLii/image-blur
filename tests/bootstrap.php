@@ -7,6 +7,5 @@ WP_Mock::bootstrap();
 
 class WP_post {
 
-
 	public int $ID;
 }

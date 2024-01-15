@@ -127,6 +127,9 @@ function image_blur_render_blur_to_edit_view( array $form_fields, WP_Post $post 
 	}
 
 	$mime = get_post_mime_type( $post->ID );
+	if ( ! $mime ) {
+		return $form_fields;
+	}
 
 	$sizes = get_intermediate_image_sizes();
 	$sizes[] = 'full';

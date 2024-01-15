@@ -18,7 +18,8 @@
   "scripts": {
     "test": "./vendor/bin/pest",
     "lint": "./vendor/bin/phpcs",
-    "lint:fix": "./vendor/bin/phpcbf"
+    "lint:fix": "./vendor/bin/phpcbf",
+    "psalm": "./vendor/bin/psalm"
   },
   "config": {
     "allow-plugins": {
@@ -30,6 +31,8 @@
     "pestphp/pest": "^2.28",
     "10up/wp_mock": "^0.4.2",
     "squizlabs/php_codesniffer": "^3.8",
-    "wp-coding-standards/wpcs": "^3.0"
+    "wp-coding-standards/wpcs": "^3.0",
+    "vimeo/psalm": "^5.19",
+    "humanmade/psalm-plugin-wordpress": "^3.0"
   }
 }
