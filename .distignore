@@ -3,6 +3,7 @@
 /env
 /node_modules
 /tests
+/vendor
 .distignore
 .gitignore
 .wp-env.json
@@ -16,3 +17,4 @@ yarn.lock
 DOCKER_ENV
 docker_tag
 output.log
+runTests.sh
