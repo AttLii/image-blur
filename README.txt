@@ -78,3 +78,5 @@ add_filter("image-blur-modify-gaussian-blur-strength", "modify_gaussian_blur_str
 
 = 3.0.1 (2024-01-15): =
 - Remove redundant some files and folders from production package.
+
+= 3.0.2 (2024-01-15): =
