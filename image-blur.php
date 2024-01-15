@@ -3,7 +3,7 @@
  * Plugin Name:       Image Blur
  * Plugin URI:        https://github.com/AttLii/image-blur
  * Description:       Generates base64 encoded, downscaled and blurred versions of media library's images, which can be used f.e. as a placeholder.
- * Version:           2.0.2
+ * Version:           3.0.0
  * Requires at least: 6.1.1
  * Tested up to:      6.4.2
  * Requires PHP:      8.2
