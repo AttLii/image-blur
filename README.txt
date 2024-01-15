@@ -75,3 +75,6 @@ add_filter("image-blur-modify-gaussian-blur-strength", "modify_gaussian_blur_str
 - Rewrite core to be more simpler.
 - Test and confirm that plugin works with PHP 8.2 and WP 6.4.2.
 - Test and confirm that plugin work with WP GraphQL plugin 1.19.0.
+
+= 3.0.1 (2024-01-15): =
+- Remove redundant some files and folders from production package.
